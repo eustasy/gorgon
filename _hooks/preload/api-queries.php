@@ -1,0 +1,3 @@
+<?php
+
+$APIQueries = 0;

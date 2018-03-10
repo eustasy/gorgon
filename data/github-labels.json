@@ -1,0 +1,38 @@
+[
+
+	{ "name": "bounty", "color": "#129e5e" },
+
+	{ "name": "Language: CSS", "color": "#006b75" },
+	{ "name": "Language: HTML", "color": "#207de5" },
+	{ "name": "Language: Image", "color": "#009800" },
+	{ "name": "Language: JavaScript", "color": "#0052cc" },
+	{ "name": "Language: PHP", "color": "#5319e7" },
+	{ "name": "Language: Copy", "color": "#5fadc6" },
+	{ "name": "Language: Documentation", "color": "#e861b2" },
+
+	{ "name": "Priority: Wishlist", "color": "#5319e7" },
+	{ "name": "Priority: Low", "color": "#009800" },
+	{ "name": "Priority: Medium", "color": "#fbca04" },
+	{ "name": "Priority: High", "color": "#eb6420" },
+	{ "name": "Priority: Critical", "color": "#e11d21" },
+
+	{ "name": "Size: Bytesize", "color": "#c7def8" },
+	{ "name": "Size: Goliath", "color": "#e99695" },
+
+	{ "name": "Status: Blocked", "color": "#bfdadc" },
+	{ "name": "Status: Confirmed", "color": "#fad8c7" },
+	{ "name": "Status: Duplicate", "color": "#cccccc" },
+	{ "name": "Status: Fix Committed", "color": "#c7def8" },
+	{ "name": "Status: Fix Released", "color": "#bfd4f2" },
+	{ "name": "Status: In Progress", "color": "#bfe5bf" },
+	{ "name": "Status: Invalid", "color": "#e6e6e6" },
+	{ "name": "Status: New", "color": "#fef2c0" },
+	{ "name": "Status: Voting", "color": "#d4c5f9" },
+	{ "name": "Status: Won't Fix", "color": "#ffffff" },
+
+	{ "name": "Type: Bug", "color": "#b60205" },
+	{ "name": "Type: Maintenance", "color": "#fbca04" },
+	{ "name": "Type: Enhancement", "color": "#1d76db" },
+	{ "name": "Type: Question", "color": "#cc317c" }
+
+]
