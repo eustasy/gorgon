@@ -25,7 +25,6 @@ $Data = mysqli_query($Sitewide['Database']['Connection'], $Data);
 </script>
 <h1>Repositories with incompliant labels.</h1>
 <p><?php echo $Meta['Affected'].' / '.$Meta['Total']; ?> repositories affected.</p>
-<!-- TODO Fixes should be in a modal -->
 <p>Use <a href="https://github.com/piwik/github-sync">Piwiks GitHub Sync</a> to copy off of a compliant repo to fix.</p>
 <code>./github-sync.php sync --token=%TOKEN% --skip-milestones eustasy/puff-core eustasy/puff-db</code><br>
 <code>./github-sync.php sync --token=%TOKEN% --skip-milestones eustasy/puff-core "eustasy/*"</code>

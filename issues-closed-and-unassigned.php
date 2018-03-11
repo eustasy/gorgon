@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__.'/_puff/sitewide.php';
-// TODO Meta on scrobble
 
 $Repositories = list_repositories('`Repository` NOT LIKE \'copyof-%\'');
 

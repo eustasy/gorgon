@@ -30,8 +30,6 @@ foreach ( $Repositories as $Repository ) {
 		$CSRs[$Repository['Repository']]['ReleaseTime'] = 0;
 		$CSRs[$Repository['Repository']]['ReleaseString'] = '';
 	}
-	// TODO Test SemVer
-	// TODO Test reasonable naming
 
 	//// GET /repos/:owner/:repo/commits
 	// ?since=$Release['created_at']

@@ -39,7 +39,6 @@ foreach ( $Repositories as $Repository ) {
 		$License['type'] == 'file'
 	) {
 		$Content = base64_decode($License['content']);
-		// TODO Support all GitHub licenses https://github.com/eustasy/authenticatron/community/license/new?branch=master
 		if ( strpos($Content, 'LGPL') !== false ) {
 			$Communities[$Repository['Repository']]['License']['Detected']['Name'] = 'LGPL';
 			$Communities[$Repository['Repository']]['License']['Detected']['Color'] = 'flatui-pumpkin';
