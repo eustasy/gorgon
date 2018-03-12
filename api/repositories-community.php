@@ -157,7 +157,7 @@ foreach ( $Repositories as $Repository ) {
 
 }
 
-$ItemsTotal = $RepositoriesTotal * 7;
+$ItemsTotal = $RepositoriesTotal * 8;
 
 // Update MetaTable
 $SQL = 'REPLACE INTO `Meta` (`Name`, `Updated`, `APIQueries`, `Affected`, `Total`, `Percentage`) ';
