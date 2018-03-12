@@ -6,6 +6,7 @@ $Repositories = list_repositories('`Repository` NOT LIKE \'copyof-%\' AND `Descr
 $Communities = [];
 $RepositoriesAffected = 0;
 $RepositoriesTotal = 0;
+$ItemsAffected = 0;
 
 foreach ( $Repositories as $Repository ) {
 	$Communities[$Repository['Repository']]['Organisation'] = $Repository['Organisation'];
@@ -28,6 +29,7 @@ foreach ( $Repositories as $Repository ) {
 		$Communities[$Repository['Repository']]['License']['GitHub']['Link'] = '';
 		$Communities[$Repository['Repository']]['Affected']++;
 	}
+
 	//// GET /repos/:owner/:repo/contents/:path
 	// WARNING: Only checks LICENSE.md
 	$License = github_fetch_once(
@@ -56,7 +58,7 @@ foreach ( $Repositories as $Repository ) {
 		} else {
 			$Communities[$Repository['Repository']]['License']['Detected']['Name'] = 'Unknown';
 			$Communities[$Repository['Repository']]['License']['Detected']['Color'] = 'flatui-pomegranate';
-			$Communities[$Repository['Repository']]['Affected'] = 1;
+			$Communities[$Repository['Repository']]['Affected']++;
 		}
 		// WARNING: Hardcoded date limits.
 		for ( $i = 1990; $i <= 2030; $i++ ) {
@@ -97,19 +99,18 @@ foreach ( $Repositories as $Repository ) {
 		if ( strpos($Content, 'http://contributor-covenant.org/version/1/4') !== false ) {
 			$Communities[$Repository['Repository']]['CoC']['Detected']['Name'] = 'Contributor Covenant 1.4';
 			$Communities[$Repository['Repository']]['CoC']['Detected']['Color'] = 'flatui-nephritis';
-			$Communities[$Repository['Repository']]['Affected'] = 0;
 		} else if ( strpos($Content, 'contributor-covenant.org') !== false ) {
 			$Communities[$Repository['Repository']]['CoC']['Detected']['Name'] = 'Contributor Covenant';
 			$Communities[$Repository['Repository']]['CoC']['Detected']['Color'] = 'flatui-nephritis';
-			$Communities[$Repository['Repository']]['Affected'] = 1;
+			$Communities[$Repository['Repository']]['Affected']++;
 		} else if ( strpos($Content, 'citizencodeofconduct.org') !== false ) {
 			$Communities[$Repository['Repository']]['CoC']['Detected']['Name'] = 'Citizen Code of Conduct';
 			$Communities[$Repository['Repository']]['CoC']['Detected']['Color'] = 'flatui-nephritis';
-			$Communities[$Repository['Repository']]['Affected'] = 1;
+			$Communities[$Repository['Repository']]['Affected']++;
 		} else {
 			$Communities[$Repository['Repository']]['CoC']['Detected']['Name'] = 'Unknown';
 			$Communities[$Repository['Repository']]['CoC']['Detected']['Color'] = 'flatui-pumpkin';
-			$Communities[$Repository['Repository']]['Affected'] = 1;
+			$Communities[$Repository['Repository']]['Affected']++;
 		}
 	} else {
 		$Communities[$Repository['Repository']]['CoC']['Detected']['Name'] = '';
@@ -150,14 +151,17 @@ foreach ( $Repositories as $Repository ) {
 		$Community['health_percentage'] < 100
 	) {
 		$RepositoriesAffected++;
+		$ItemsAffected += $Communities[$Repository['Repository']]['Affected'];
 	}
 	$RepositoriesTotal++;
 
 }
 
+$ItemsTotal = $RepositoriesTotal * 7;
+
 // Update MetaTable
 $SQL = 'REPLACE INTO `Meta` (`Name`, `Updated`, `APIQueries`, `Affected`, `Total`, `Percentage`) ';
-$SQL .= 'VALUES (\'repositories-community\', \''.$Time.'\', \''.$APIQueries.'\', \''.$RepositoriesAffected.'\', \''.$RepositoriesTotal.'\', \''.round(100-(($RepositoriesAffected/$RepositoriesTotal)*100)).'\');';
+$SQL .= 'VALUES (\'repositories-community\', \''.$Time.'\', \''.$APIQueries.'\', \''.$RepositoriesAffected.'\', \''.$RepositoriesTotal.'\', \''.round(100-(($ItemsAffected/$ItemsTotal)*100)).'\');';
 $Result = mysqli_query($Sitewide['Database']['Connection'], $SQL);
 
 // Empty & Update Table
@@ -191,6 +195,8 @@ $JSON = array(
 	'success' => $Result,
 	'affected' => $RepositoriesAffected,
 	'total' => $RepositoriesTotal,
+	'iteamsAffected' => $ItemsAffected,
+	'itemsTotal' => $ItemsTotal,
 	'api_queries' => $APIQueries,
 	'time' => $Time,
 );
