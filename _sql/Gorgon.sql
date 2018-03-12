@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 11, 2018 at 06:04 PM
+-- Generation Time: Mar 12, 2018 at 10:33 PM
 -- Server version: 10.1.31-MariaDB-1~xenial
 -- PHP Version: 7.1.15-1+ubuntu16.04.1+deb.sury.org+2
 
@@ -59,7 +59,7 @@ CREATE TABLE `Meta` (
   `APIQueries` int(11) NOT NULL,
   `Affected` int(11) NOT NULL,
   `Total` int(11) NOT NULL,
-  `Percentage` int(11) NOT NULL,
+  `Percentage` float(4,1) NOT NULL,
   `Data1` varchar(256) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

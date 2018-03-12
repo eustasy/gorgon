@@ -158,10 +158,14 @@ foreach ( $Repositories as $Repository ) {
 }
 
 $ItemsTotal = $RepositoriesTotal * 8;
+$Percentage = round(
+	( 100 - ( ( $ItemsAffected / $ItemsTotal ) * 100 ) ),
+	1
+);
 
 // Update MetaTable
 $SQL = 'REPLACE INTO `Meta` (`Name`, `Updated`, `APIQueries`, `Affected`, `Total`, `Percentage`) ';
-$SQL .= 'VALUES (\'repositories-community\', \''.$Time.'\', \''.$APIQueries.'\', \''.$RepositoriesAffected.'\', \''.$RepositoriesTotal.'\', \''.round(100-(($ItemsAffected/$ItemsTotal)*100)).'\');';
+$SQL .= 'VALUES (\'repositories-community\', \''.$Time.'\', \''.$APIQueries.'\', \''.$RepositoriesAffected.'\', \''.$RepositoriesTotal.'\', \''.$Percentage.'\');';
 $Result = mysqli_query($Sitewide['Database']['Connection'], $SQL);
 
 // Empty & Update Table
