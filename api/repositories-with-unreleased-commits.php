@@ -42,23 +42,26 @@ foreach ( $Repositories as $Repository ) {
 
 	// TODO What? Why? Document better.
 	if ( !empty($CSRs[$Repository['Repository']]['LatestRelease']['tag_name']) ) {
-		$CommitsSince = $CommitsSince-3;
+		$CommitsSince = $CommitsSince - 3;
 	} else {
-		$CommitsSince = $CommitsSince-2;
+		$CommitsSince = $CommitsSince - 2;
 	}
 
 	$CSRs[$Repository['Repository']]['CommitsSince'] = $CommitsSince;
 	if ( $CommitsSince >= 90 ) {
 		$CSRs[$Repository['Repository']]['CommitsColor'] = 'flatui-pomegranate';
-	} else if ( $CommitsSince > 0 ) {
+	} else if (
+		$CommitsSince > $Gorgon['CommitsSinceBoundary'] &&
+		$CSRs[$Repository['Repository']]['ReleaseTime'] < ( $Time - 2419200 )
+	) {
 		$CSRs[$Repository['Repository']]['CommitsColor'] = 'flatui-pumpkin';
 	} else {
 		$CSRs[$Repository['Repository']]['CommitsColor'] = 'flatui-nephritis';
 	}
 
 	if (
-		( $CommitsSince > 0 && $CSRs[$Repository['Repository']]['ReleaseTime'] < ( $Time - 2419200 ) ) ||
-		( $CommitsSince > 9 )
+		$CommitsSince > $Gorgon['CommitsSinceBoundary'] &&
+		$CSRs[$Repository['Repository']]['ReleaseTime'] < ( $Time - 2419200 )
 	) {
 		$CSRs[$Repository['Repository']]['Affected'] = 1;
 		$RepositoriesAffected++;
