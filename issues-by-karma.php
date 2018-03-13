@@ -25,8 +25,8 @@ $Issues = mysqli_query($Sitewide['Database']['Connection'], $SQL);
 $Issues_Count = mysqli_num_rows($Issues);
 
 $Page['Type']        = 'Page';
-$Page['Title']       = 'Issues without Priority.';
-$Page['Description'] = number_format($Issues_Count).' issues without priority.';
+$Page['Title']       = 'Issues by Karma.';
+$Page['Description'] = 'All open issues sorted by Karma.';
 require_once $Sitewide['Templates']['Header'];
 ?>
 <script>
