@@ -58,10 +58,6 @@ require_once $Sitewide['Templates']['Header'];
 
 <?php
 while ( $Issue = mysqli_fetch_assoc($Issues) ) {
-	// ["Assignee"]=> string(0) ""
-	// ["Description"]=> string(226) "Are there already plans for packaging this as an RPM for easy installation? If so, great! How can I help? If not, I'd like to volunteer to build them. Either way, I'd like to help out in any way that I can."
-	//["Milestone"]=> string(0) ""
-	//["Bounty"]=> string(1) "0" }
 	echo '<tr id="'.strtolower(str_replace(' ', '-', $Issue['Repository'])).'">'.PHP_EOL;
 	echo '<td class="text-left half">'.substr($Issue['Title'], 0, 96);
 	if ( strlen($Issue['Title']) > 96 ) {
