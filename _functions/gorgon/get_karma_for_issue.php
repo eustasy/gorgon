@@ -9,9 +9,6 @@ function get_karma_for_issue($Sitewide, $Issue) {
 	$Karma['Cash'] = $Issue['Cash Total'] * 1;
 	// Comments, 1 karma per.
 	$Karma['Comments'] = $Issue['Comments'] * 1;
-	// TODO Reactions are comments too
-	// https://developer.github.com/changes/2016-05-12-reactions-api-preview/
-	// https://developer.github.com/v3/reactions/#list-reactions-for-an-issue
 
 	////	Karma for Time Spent Open
 	// 1 Karma per Day
@@ -74,8 +71,6 @@ function get_karma_for_issue($Sitewide, $Issue) {
 	$Karma['Total'] += $Karma['Time'];
 	$Karma['Total'] += $Karma['Priority'];
 	$Karma['Total'] += $Karma['Size'];
-
-	// TODO Update Karma Cache on Issue here
 
 	return $Karma;
 

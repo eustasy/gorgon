@@ -72,8 +72,8 @@ $Data = mysqli_query($Sitewide['Database']['Connection'], $Data);
 
 			if ( $Row['Percentage'] >= 100 ) {
 				echo '
-				<td class="color-flatui-nephritis text-right">'.$Row['Percentage'].'%</td>';
-			} else if ( $Row['Percentage'] >= 90 ) {
+				<td class="color-flatui-nephritis text-right">100%</td>';
+			} else if ( $Row['Percentage'] >= 75 ) {
 				echo '
 				<td class="color-flatui-pumpkin text-right">'.$Row['Percentage'].'%</td>';
 			} else {
