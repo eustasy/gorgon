@@ -1,3 +1,5 @@
+# eustasy Normalized Checks 1.8a
+
 dist: trusty
 sudo: required
 
