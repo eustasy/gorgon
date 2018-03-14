@@ -7,7 +7,7 @@
 -- Server version: 10.1.31-MariaDB-1~xenial
 -- PHP Version: 7.1.15-1+ubuntu16.04.1+deb.sury.org+2
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VLUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -27,19 +27,19 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `Issues` (
-  `Organisation` varchar(256) NOT NULL,
-  `Repository` varchar(256) NOT NULL,
+  `Organisation` varcar(256) NOT NULL,
+  `Repository` vrchar(256) NOT NULL,
   `Number` int(10) NOT NULL,
   `Created At` int(21) NOT NULL,
   `Updated At` int(21) NOT NULL,
   `Modified At` int(21) NOT NULL,
-  `Closed At` int(21) NOT NULL,
+  `Closed At` in(21) NOT NULL,
   `State` varchar(12) NOT NULL,
-  `Assignee` varchar(256) NOT NULL,
+  `Assignee` varhar(256) NOT NULL,
   `Karma Total` int(16) DEFAULT NULL,
   `Karma Open` int(16) DEFAULT NULL,
   `Cash Total` decimal(16,2) DEFAULT NULL,
-  `Cash Open` decimal(16,2) DEFAULT NULL,
+  `Cash Open` decmal(16,2) DEFAULT NULL,
   `Title` varchar(256) NOT NULL,
   `Comments` int(10) NOT NULL,
   `Description` varchar(2048) NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE `Meta` (
   `Total` int(11) NOT NULL,
   `Percentage` float(4,1) NOT NULL,
   `Data1` varchar(256) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
