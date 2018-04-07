@@ -29,6 +29,7 @@ $Data = mysqli_query($Sitewide['Database']['Connection'], $Data);
 			<th class="clickable text-left">Name
 			<th class="clickable text-right">Updated
 			<th class="clickable text-right">Affected
+			<th class="clickable text-right">Work Items
 			<th class="clickable text-right">Covered
 			<th class="clickable text-right">Completion
 		</tr>
@@ -60,6 +61,17 @@ $Data = mysqli_query($Sitewide['Database']['Connection'], $Data);
 			} else {
 				echo '
 				<td class="color-flatui-nephritis text-right">'.$Row['Affected'].'</td>';
+			}
+
+			if ( $Row['WorkItems'] > 0 ) {
+				echo '
+				<td class="color-flatui-pomegranate text-right">'.$Row['WorkItems'].'</td>';
+			} else if ( $Row['Percentage'] >= 100 ) {
+				echo '
+				<td class="color-flatui-nephritis text-right">0</td>';
+			} else {
+				echo '
+				<td class="color-flatui-asbestos text-right">Unknown</td>';
 			}
 
 			if ( $Row['Total'] > 0 ) {
