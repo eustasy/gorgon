@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 12, 2018 at 10:33 PM
--- Server version: 10.1.31-MariaDB-1~xenial
--- PHP Version: 7.1.15-1+ubuntu16.04.1+deb.sury.org+2
+-- Generation Time: Apr 13, 2018 at 06:46 PM
+-- Server version: 10.1.32-MariaDB-1~xenial
+-- PHP Version: 7.1.16-1+ubuntu16.04.1+deb.sury.org+1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -60,6 +60,7 @@ CREATE TABLE `Meta` (
   `Affected` int(11) NOT NULL,
   `Total` int(11) NOT NULL,
   `Percentage` float(4,1) NOT NULL,
+  `WorkItems` int(11) DEFAULT NULL,
   `Data1` varchar(256) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -131,6 +132,8 @@ CREATE TABLE `repositories-with-unreleased-commits` (
   `Organisation` varchar(256) NOT NULL,
   `Repository` varchar(256) NOT NULL,
   `ReleaseString` varchar(64) DEFAULT NULL,
+  `ReleaseVersion` varchar(32) DEFAULT NULL,
+  `ReleaseSemVer` tinyint(1) NOT NULL,
   `ReleaseTime` int(16) DEFAULT NULL,
   `CommitsSince` int(11) NOT NULL,
   `CommitsColor` varchar(32) NOT NULL,
