@@ -33,27 +33,7 @@ foreach ($Issues as $Issue) {
 }
 $RepositoriesAffected = count($Repositories, COUNT_RECURSIVE) - count($Repositories);
 
-$SQL = <<<SQL
-SELECT
-	*
-FROM
-	`Issues`
-LEFT JOIN
-	`Repositories`
-		ON
-			`Issues`.`Organisation` = `Repositories`.`Organisation`
-		AND
-			`Issues`.`Repository` = `Repositories`.`Repository`
-WHERE
-	`Issues`.`Repository` NOT LIKE 'copyof-%'
-	AND `Repositories`.`Description` NOT LIKE 'EOL: %'
-	AND `Labels` NOT LIKE '%Status: Invalid%'
-ORDER BY
-	`State` DESC,
-	`Karma Total` DESC;
-SQL;
-$Issues = mysqli_query($Sitewide['Database']['Connection'], $SQL);
-$Issues = mysqli_num_rows($Issues);
+$Issues = count_issues('`Issues`.`Repository` NOT LIKE \'copyof-%\' AND `Repositories`.`Description` NOT LIKE \'EOL: %\' AND `Labels` NOT LIKE \'%Status: Invalid%\'');
 
 // Update MetaTable
 $Percentage = round( 100 - ( ( $IssuesAffected / $Issues ) * 100 ) );
