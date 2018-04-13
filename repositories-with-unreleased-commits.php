@@ -29,7 +29,9 @@ $Data = mysqli_query($Sitewide['Database']['Connection'], $Data);
 	<thead>
 		<tr>
 			<th class="text-left">Repository</th>
-			<th class="text-left">Last Release</th>
+			<th class="text-left">Release Version</th>
+			<th class="text-left">Release Name</th>
+			<th class="text-left">Release SemVer</th>
 			<th class="text-left">Released</th>
 			<th class="text-right">Commits Since</th>
 		</tr>
@@ -40,13 +42,24 @@ $Data = mysqli_query($Sitewide['Database']['Connection'], $Data);
 		echo '
 		<tr>
 			<td><a href="https://github.com/'.$Repository['Organisation'].'/'.$Repository['Repository'].'/releases">'.$Repository['Repository'].'</a></td>';
-		if ( empty($Repository['ReleaseString']) && empty($Repository['ReleaseTime']) ) {
+		if ( empty($Repository['ReleaseVersion']) && empty($Repository['ReleaseTime']) ) {
 			echo '
-			<td class="color-flatui-pomegranate">None</td>
-			<td data-text="0" class="color-flatui-asbestos">Never</td>';
+			<td class="color-flatui-asbestos">None</td>
+			<td class="color-flatui-asbestos">None</td>
+			<td class="color-flatui-asbestos">N/a</td>
+			<td data-text="0" class="color-flatui-pomegranate">Never</td>';
 		} else {
 			echo '
-			<td>'.$Repository['ReleaseString'].'</td>
+			<td>'.$Repository['ReleaseVersion'].'</td>
+			<td>'.$Repository['ReleaseString'].'</td>';
+			if ( $Repository['ReleaseSemVer'] ) {
+				echo '
+			<td class="color-flatui-nephritis">'.Yes.'</td>';
+			} else {
+				echo '
+			<td class="color-flatui-pomegranate">'.Yes.'</td>';
+			}
+		echo '
 			<td data-text="'.
 				$Repository['ReleaseTime'].
 				'">'.date(

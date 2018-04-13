@@ -7,6 +7,7 @@ $CSRs = [];
 $RepositoriesAffected = 0;
 $RepositoriesTotal = 0;
 $TotalCommitsSince = 0;
+$WorkItems = 0;
 
 foreach ( $Repositories as $Repository ) {
 
@@ -22,9 +23,11 @@ foreach ( $Repositories as $Repository ) {
 
 	if ( !empty($CSRs[$Repository['Repository']]['LatestRelease']['tag_name']) ) {
 		$CSRs[$Repository['Repository']]['ReleaseTime'] = strtotime($CSRs[$Repository['Repository']]['LatestRelease']['created_at']);
-		$CSRs[$Repository['Repository']]['ReleaseString'] = $CSRs[$Repository['Repository']]['LatestRelease']['tag_name'];
+		$CSRs[$Repository['Repository']]['ReleaseVersion'] = $CSRs[$Repository['Repository']]['LatestRelease']['tag_name'];
 		if ( !empty($CSRs[$Repository['Repository']]['LatestRelease']['name']) ) {
-			$CSRs[$Repository['Repository']]['ReleaseString'] .=  ' ('.$CSRs[$Repository['Repository']]['LatestRelease']['name'].')';
+			$CSRs[$Repository['Repository']]['ReleaseString'] =  $CSRs[$Repository['Repository']]['LatestRelease']['name'];
+		} else {
+			$CSRs[$Repository['Repository']]['ReleaseString'] = '';
 		}
 	} else {
 		$CSRs[$Repository['Repository']]['ReleaseTime'] = 0;
@@ -63,6 +66,25 @@ foreach ( $Repositories as $Repository ) {
 		$CommitsSince > $Gorgon['CommitsSinceBoundary'] &&
 		$CSRs[$Repository['Repository']]['ReleaseTime'] < ( $Time - 2419200 )
 	) {
+		$WorkItems++;
+	}
+	if (
+		!empty($CSRs[$Repository['Repository']]['LatestRelease']['tag_name']) &&
+		!test_version($CSRs[$Repository['Repository']]['LatestRelease']['tag_name'])
+	) {
+		$CSRs[$Repository['Repository']]['ReleaseSemVer'] = false;
+		$WorkItems++;
+	} else {
+		$CSRs[$Repository['Repository']]['ReleaseSemVer'] = true;
+	}
+
+	if (
+		(
+			$CommitsSince > $Gorgon['CommitsSinceBoundary'] &&
+			$CSRs[$Repository['Repository']]['ReleaseTime'] < ( $Time - 2419200 )
+		) ||
+		!$CSRs[$Repository['Repository']]['ReleaseSemVer']
+	) {
 		$CSRs[$Repository['Repository']]['Affected'] = 1;
 		$RepositoriesAffected++;
 	} else {
@@ -77,18 +99,19 @@ foreach ( $Repositories as $Repository ) {
 // Update MetaTable
 $Percentage = round( 100 - ( ( $RepositoriesAffected / $RepositoriesTotal ) * 100 ) );
 $SQL = 'REPLACE INTO `Meta` (`Name`, `Updated`, `APIQueries`, `Affected`, `Total`, `Percentage`, `WorkItems`, `Data1`) ';
-$SQL .= 'VALUES (\'repositories-with-unreleased-commits\', \''.$Time.'\', \''.$APIQueries.'\', \''.$RepositoriesAffected.'\', \''.$RepositoriesTotal.'\', \''.$Percentage.'\', \''.$RepositoriesAffected.'\', \''.$TotalCommitsSince.'\');';
+$SQL .= 'VALUES (\'repositories-with-unreleased-commits\', \''.$Time.'\', \''.$APIQueries.'\', \''.$RepositoriesAffected.'\', \''.$RepositoriesTotal.'\', \''.$Percentage.'\', \''.$WorkItems.'\', \''.$TotalCommitsSince.'\');';
 $Result = mysqli_query($Sitewide['Database']['Connection'], $SQL);
 
 // Empty & Update Table
 $SQL = <<<SQL
 	TRUNCATE TABLE `repositories-with-unreleased-commits`;
 	INSERT INTO `repositories-with-unreleased-commits`
-		(`Organisation`, `Repository`, `ReleaseString`, `ReleaseTime`, `CommitsSince`, `CommitsColor`, `Affected`)
+		(`Organisation`, `Repository`, `ReleaseVersion`, `ReleaseSemVer`, `ReleaseString`, `ReleaseTime`, `CommitsSince`, `CommitsColor`, `Affected`)
 	VALUES
 SQL;
 foreach ( $CSRs as $Row ) {
 	$SQL .= '(\''.$Row['Organisation'].'\', \''.$Row['Repository'].'\', ';
+	$SQL .= '\''.$Row['ReleaseVersion'].'\', \''.$Row['ReleaseSemVer'].'\', ';
 	$SQL .= '\''.$Row['ReleaseString'].'\', \''.$Row['ReleaseTime'].'\', ';
 	$SQL .= '\''.$Row['CommitsSince'].'\', \''.$Row['CommitsColor'].'\', ';
 	$SQL .= '\''.$Row['Affected'].'\'),';
