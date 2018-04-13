@@ -45,9 +45,9 @@ require_once $Sitewide['Templates']['Header'];
 <table class="duplex tablesorter">
 	<thead>
 		<tr>
-			<th class="clickable text-left faded">Title
 			<th class="clickable text-left">Repository
 			<th class="clickable text-right">Number
+			<th class="clickable text-left">Title
 			<th class="clickable text-right">Comments
 			<th class="clickable text-right">Bounty
 			<th class="clickable text-right">Opened
@@ -58,15 +58,16 @@ require_once $Sitewide['Templates']['Header'];
 
 <?php
 while ( $Issue = mysqli_fetch_assoc($Issues) ) {
+	$Link = 'https://github.com/'.$Issue['Organisation'].'/'.$Issue['Repository'].'/issues/'.$Issue['Number'];
 	echo '<tr id="'.strtolower(str_replace(' ', '-', $Issue['Repository'])).'">'.PHP_EOL;
+	echo '<td class="text-left">'.$Issue['Repository'].PHP_EOL;
+	echo '<td class="text-right" data-text="'.$Issue['Number'].'"><a href="'.$Link.'">#'.number_format($Issue['Number']).'</a>'.PHP_EOL;
 	echo '<td class="text-left half">'.substr($Issue['Title'], 0, 96);
 	if ( strlen($Issue['Title']) > 96 ) {
 		echo '&hellip;';
 	}
 	echo PHP_EOL;
-	echo '<td class="text-left">'.$Issue['Repository'].PHP_EOL;
-	echo '<td class="text-right" data-text="'.$Issue['Number'].'"><a href="/issues/'.$Issue['Organisation'].'/'.$Issue['Repository'].'/'.$Issue['Number'].'">#'.number_format($Issue['Number']).'</a>'.PHP_EOL;
-	echo '<td class="text-right" data-text="'.$Issue['Comments'].'"><a href="https://github.com/'.$Issue['Organisation'].'/'.$Issue['Repository'].'/issues/'.$Issue['Number'].'">'.number_format($Issue['Comments']).'</a>'.PHP_EOL;
+	echo '<td class="text-right" data-text="'.$Issue['Comments'].'"><a href="'.$Link.'">'.number_format($Issue['Comments']).'</a>'.PHP_EOL;
 
 	// Karma Bounty Indicator
 	echo '<td class="text-right" data-text="'.(($Issue['Cash Total']*100000)+$Issue['Karma Total']).'">';
