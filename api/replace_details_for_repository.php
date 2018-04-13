@@ -18,17 +18,21 @@ if ( !empty($_GET['slug']) ) {
 }
 $Repository = mysqli_fetch_once($Sitewide['Database']['Connection'], $SQL);
 
-//// GET /repos/:owner/:repo
-$URL = 'https://api.github.com/repos/'.$Repository['Organisation'].'/'.$Repository['Repository'].'?';
-$data = github_fetch_once($URL);
-
-if (
-	!empty($data['message']) &&
-	$data['message'] == 'Not Found'
-) {
-	echo json_encode(array('error' => 'Repository "'.$Repository['Organisation'].'/'.$Repository['Repository'].'" not found.'));
-
+if ( !$Repository ) {
+	echo json_encode(array('error' => 'Repository "'.$Repository['Organisation'].'/'.$Repository['Repository'].'" not found in Gorgon.'));
 } else {
-	$Repository = replace_details_for_repository($Repository, $data);
-	echo json_encode($Repository);
+	//// GET /repos/:owner/:repo
+	$URL = 'https://api.github.com/repos/'.$Repository['Organisation'].'/'.$Repository['Repository'].'?';
+	$data = github_fetch_once($URL);
+
+	if (
+		!empty($data['message']) &&
+		$data['message'] == 'Not Found'
+	) {
+		echo json_encode(array('error' => 'Repository "'.$Repository['Organisation'].'/'.$Repository['Repository'].'" not found on GitHub.'));
+
+	} else {
+		$Repository = replace_details_for_repository($Repository, $data);
+		echo json_encode($Repository);
+	}
 }
