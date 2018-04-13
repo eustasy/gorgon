@@ -6,6 +6,7 @@ $Repositories = list_repositories('`Repository` NOT LIKE \'copyof-%\' AND `Descr
 $Travis = [];
 $RepositoriesAffected = 0;
 $RepositoriesTotal = 0;
+$ItemsAffected = 0;
 
 foreach ( $Repositories as $Repository ) {
 
@@ -17,7 +18,11 @@ foreach ( $Repositories as $Repository ) {
 	$Travis[$Repository['Repository']]['state'] = $Travis[$Repository['Repository']]['branch']['state'];
 
 	foreach ( $Travis[$Repository['Repository']]['branch']['config']['before_script'] as $Line ) {
-		if ( strpos($Line, '4256f55ef631900df06ca5c6167e21e6ed4cf55b') !== false ) {
+		if ( strpos($Line, '649a7e0907c0ab4b342688e7d068b574a0945b3e') !== false ) {
+			$Travis[$Repository['Repository']]['VersionString'] = 'Normal Checks 1.9';
+			$Travis[$Repository['Repository']]['VersionColor'] = 'flatui-nephritis';
+			$Travis[$Repository['Repository']]['Affected'] = 0;
+		} else if ( strpos($Line, '4256f55ef631900df06ca5c6167e21e6ed4cf55b') !== false ) {
 			$Travis[$Repository['Repository']]['VersionString'] = 'Normal Checks 1.7';
 			$Travis[$Repository['Repository']]['VersionColor'] = 'flatui-nephritis';
 			$Travis[$Repository['Repository']]['Affected'] = 0;
@@ -38,13 +43,25 @@ foreach ( $Repositories as $Repository ) {
 	) {
 		$Travis[$Repository['Repository']]['Affected'] = 1;
 		$RepositoriesAffected++;
+		if ( $Travis[$Repository['Repository']]['state'] != 'passed' ) {
+			$ItemsAffected += 1;
+		}
+		if ( $Travis[$Repository['Repository']]['Affected'] ) {
+			$ItemsAffected += 1;
+		}
 	}
 	$RepositoriesTotal++;
 }
 
+$ItemsTotal = $RepositoriesTotal * 2;
+$Percentage = round(
+	( 100 - ( ( $ItemsAffected / $ItemsTotal ) * 100 ) ),
+	1
+);
+
 // Update MetaTable
-$SQL = 'REPLACE INTO `Meta` (`Name`, `Updated`, `APIQueries`, `Affected`, `Total`, `Percentage`) ';
-$SQL .= 'VALUES (\'repositories-without-normalized-builds\', \''.$Time.'\', \''.$APIQueries.'\', \''.$RepositoriesAffected.'\', \''.$RepositoriesTotal.'\', \''.round(100-(($RepositoriesAffected/$RepositoriesTotal)*100)).'\');';
+$SQL = 'REPLACE INTO `Meta` (`Name`, `Updated`, `APIQueries`, `Affected`, `Total`, `Percentage`, `WorkItems`) ';
+$SQL .= 'VALUES (\'repositories-without-normalized-builds\', \''.$Time.'\', \''.$APIQueries.'\', \''.$RepositoriesAffected.'\', \''.$RepositoriesTotal.'\', \''.$Percentage.'\', \''.$ItemsAffected.'\');';
 $Result = mysqli_query($Sitewide['Database']['Connection'], $SQL);
 
 // Empty & Update Table

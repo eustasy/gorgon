@@ -76,8 +76,8 @@ foreach ( $Repositories as $Repository ) {
 
 // Update MetaTable
 $Percentage = round( 100 - ( ( $RepositoriesAffected / $RepositoriesTotal ) * 100 ) );
-$SQL = 'REPLACE INTO `Meta` (`Name`, `Updated`, `APIQueries`, `Affected`, `Total`, `Percentage`, `Data1`) ';
-$SQL .= 'VALUES (\'repositories-with-unreleased-commits\', \''.$Time.'\', \''.$APIQueries.'\', \''.$RepositoriesAffected.'\', \''.$RepositoriesTotal.'\', \''.$Percentage.'\', \''.$TotalCommitsSince.'\');';
+$SQL = 'REPLACE INTO `Meta` (`Name`, `Updated`, `APIQueries`, `Affected`, `Total`, `Percentage`, `WorkItems`, `Data1`) ';
+$SQL .= 'VALUES (\'repositories-with-unreleased-commits\', \''.$Time.'\', \''.$APIQueries.'\', \''.$RepositoriesAffected.'\', \''.$RepositoriesTotal.'\', \''.$Percentage.'\', \''.$RepositoriesAffected.'\', \''.$TotalCommitsSince.'\');';
 $Result = mysqli_query($Sitewide['Database']['Connection'], $SQL);
 
 // Empty & Update Table
