@@ -66,26 +66,30 @@ foreach ( $Repositories as $Repository ) {
 		$CommitsSince > $Gorgon['CommitsSinceBoundary'] &&
 		$CSRs[$Repository['Repository']]['ReleaseTime'] < ( $Time - 2419200 )
 	) {
+		$CSRs[$Repository['Repository']]['Affected'] = 1;
+		//var_dump('Work Item: Too many commits since the last release while the release is > 28 days old.');
 		$WorkItems++;
 	}
+
+	if ( empty($CSRs[$Repository['Repository']]['LatestRelease']['tag_name']) ) {
+		$CSRs[$Repository['Repository']]['Affected'] = 1;
+		//var_dump('Work Item: No release.');
+		$WorkItems++;
+	}
+
 	if (
 		!empty($CSRs[$Repository['Repository']]['LatestRelease']['tag_name']) &&
 		!test_version($CSRs[$Repository['Repository']]['LatestRelease']['tag_name'])
 	) {
 		$CSRs[$Repository['Repository']]['ReleaseSemVer'] = false;
+		$CSRs[$Repository['Repository']]['Affected'] = 1;
+		//var_dump('Work Item: Release tag is not SemVer while a release exists.');
 		$WorkItems++;
 	} else {
 		$CSRs[$Repository['Repository']]['ReleaseSemVer'] = true;
 	}
 
-	if (
-		(
-			$CommitsSince > $Gorgon['CommitsSinceBoundary'] &&
-			$CSRs[$Repository['Repository']]['ReleaseTime'] < ( $Time - 2419200 )
-		) ||
-		!$CSRs[$Repository['Repository']]['ReleaseSemVer']
-	) {
-		$CSRs[$Repository['Repository']]['Affected'] = 1;
+	if ( $CSRs[$Repository['Repository']]['Affected'] ) {
 		$RepositoriesAffected++;
 	} else {
 		$CSRs[$Repository['Repository']]['Affected'] = 0;

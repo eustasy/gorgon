@@ -62,7 +62,11 @@ $Data = mysqli_query($Sitewide['Database']['Connection'], $Data);
 		echo '
 			<td data-text="'.
 				$Repository['ReleaseTime'].
-				'">'.date(
+				'"';
+		if ( $Repository['ReleaseTime'] > ( $Time - 2419200 ) ) {
+			echo ' class="color-flatui-nephritis"';
+		}
+		echo '>'.date(
 					'Y-m-d H:i:s',
 					$Repository['ReleaseTime']
 				).'</td>';
