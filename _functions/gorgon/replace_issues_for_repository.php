@@ -1,7 +1,7 @@
 <?php
 
 function replace_issues_for_repository($Issue, $connection) {
-	global $Sitewide, $Repository, $Time;
+	global $Sitewide, $Repository, $Time, $APIQueries, $Clients;
 
 	$Issue['Organisation'] = $Repository['Organisation'];
 	$Issue['Repository'] = $Repository['Repository'];
@@ -16,6 +16,12 @@ function replace_issues_for_repository($Issue, $connection) {
 	$Issue['State'] = $Issue['state'];
 	$Issue['Body'] = htmlentities($Issue['body'], ENT_QUOTES, 'UTF-8');
 	$Issue['Milestone'] = htmlentities($Issue['milestone']['title'], ENT_QUOTES, 'UTF-8');
+
+	////	GET /repos/:owner/:repo/issues/:number/reactions
+	$URL = 'https://api.github.com/repos/'.$Repository['Organisation'].'/'.$Repository['Repository'].
+		'/issues/'.$Issue['Number'].'/reactions?per_page=100';
+	$Issue['Reactions'] = github_fetch_once($URL, false);
+	$Issue['Reactions'] = count($Issue['Reactions']);
 
 	////	Calculate Cash Bounty
 	// WARNING: Must be before Karma calculations.
@@ -73,6 +79,7 @@ function replace_issues_for_repository($Issue, $connection) {
 		`Cash Open`=\''.$Issue['Cash Open'].'\',
 		`Title`=\''.$Issue['Title'].'\',
 		`Comments`=\''.$Issue['Comments'].'\',
+		`Reactions`=\''.$Issue['Reactions'].'\',
 		`Description`=\''.$Issue['Body'].'\',
 		`Milestone`=\''.$Issue['Milestone'].'\',
 		`Labels`=\''.json_encode($Issue['labels']).'\';';

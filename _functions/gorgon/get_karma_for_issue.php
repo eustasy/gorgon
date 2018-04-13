@@ -9,6 +9,7 @@ function get_karma_for_issue($Sitewide, $Issue) {
 	$Karma['Cash'] = $Issue['Cash Total'] * 1;
 	// Comments, 1 karma per.
 	$Karma['Comments'] = $Issue['Comments'] * 1;
+	$Karma['Reactions'] = $Issue['Reactions'] * 1;
 
 	////	Karma for Time Spent Open
 	// 1 Karma per Day
@@ -68,6 +69,7 @@ function get_karma_for_issue($Sitewide, $Issue) {
 	$Karma['Total'] += $Karma['Existence'];
 	$Karma['Total'] += $Karma['Cash'];
 	$Karma['Total'] += $Karma['Comments'];
+	$Karma['Total'] += $Karma['Reactions'];
 	$Karma['Total'] += $Karma['Time'];
 	$Karma['Total'] += $Karma['Priority'];
 	$Karma['Total'] += $Karma['Size'];

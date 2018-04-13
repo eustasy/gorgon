@@ -1,13 +1,14 @@
 <?php
 
 ////	Query GitHub for the repo
-function github_fetch_once($URL) {
+function github_fetch_once($URL, $RatesAndPages = true) {
 	global $APIQueries, $Client;
 	$APIQueries++;
 	$URL = $URL.'&client_id='.$Client['ID'].'&client_secret='.$Client['Secret'];
 	$Headers = array(
 		'Accept: application/json',
-		'Accept: application/vnd.github.black-panther-preview+json'
+		'Accept: application/vnd.github.black-panther-preview+json',
+		'Accept: application/vnd.github.squirrel-girl-preview'
 	);
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, $URL);
@@ -39,26 +40,28 @@ function github_fetch_once($URL) {
 	$data = substr($data, $header_size);
 	$data = json_decode($data, true);// The true in is important
 
-	$data['X-RateLimit-Remaining'] = $header_array['X-RateLimit-Remaining'];
-	if ( !empty($header_array['Link']) ) {
-		$header_array['Link'] = explode(',', $header_array['Link']);
-		foreach ( $header_array['Link'] as $Link ) {
-			$Link = explode(';', $Link);
-			$Link[0] = trim($Link[0], ' <>#');
-			$Link[1] = trim($Link[1], ' <>#');
-			if ( $Link[1] == 'rel="last"' ) {
-				$Index = explode('?', $Link[0])[1];
-				$Index = explode('&', $Index);
-				foreach ( $Index as $Potential ) {
-					if ( substr($Potential, 0, 4) == 'page' ) {
-						$data['API Pagination End'] = intval(explode('=', $Potential)[1]);
+	if ( $RatesAndPages ) {
+		$data['X-RateLimit-Remaining'] = $header_array['X-RateLimit-Remaining'];
+		if ( !empty($header_array['Link']) ) {
+			$header_array['Link'] = explode(',', $header_array['Link']);
+			foreach ( $header_array['Link'] as $Link ) {
+				$Link = explode(';', $Link);
+				$Link[0] = trim($Link[0], ' <>#');
+				$Link[1] = trim($Link[1], ' <>#');
+				if ( $Link[1] == 'rel="last"' ) {
+					$Index = explode('?', $Link[0])[1];
+					$Index = explode('&', $Index);
+					foreach ( $Index as $Potential ) {
+						if ( substr($Potential, 0, 4) == 'page' ) {
+							$data['API Pagination End'] = intval(explode('=', $Potential)[1]);
+						}
 					}
 				}
 			}
 		}
-	}
-	if ( empty($data['API Pagination End']) ) {
-		$data['API Pagination End'] = false;
+		if ( empty($data['API Pagination End']) ) {
+			$data['API Pagination End'] = false;
+		}
 	}
 
 	return $data;
