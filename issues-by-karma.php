@@ -41,6 +41,7 @@ require_once $Sitewide['Templates']['Header'];
 	);
 </script>
 <h1><?php echo $Page['Description']; ?></h1>
+<p>There are <?php echo $Issues_Count; ?> open issues.</p>
 <table class="duplex tablesorter">
 	<thead>
 		<tr>
