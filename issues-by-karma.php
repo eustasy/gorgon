@@ -24,6 +24,25 @@ SQL;
 $Issues = mysqli_query($Sitewide['Database']['Connection'], $SQL);
 $Issues_Count = mysqli_num_rows($Issues);
 
+$SQL = <<<SQL
+SELECT
+	SUM(`Karma Total`) AS `Karma`
+FROM
+	`Issues`
+LEFT JOIN
+	`Repositories`
+		ON
+			`Issues`.`Organisation` = `Repositories`.`Organisation`
+		AND
+			`Issues`.`Repository` = `Repositories`.`Repository`
+WHERE
+	`Issues`.`Repository` NOT LIKE 'copyof-%'
+	AND `Repositories`.`Description` NOT LIKE 'EOL: %'
+	AND `State` = 'open';
+SQL;
+$TotalKarma = mysqli_fetch_once($Sitewide['Database']['Connection'], $SQL);
+$TotalKarma = $TotalKarma['Karma'];
+
 $Page['Type']        = 'Page';
 $Page['Title']       = 'Issues by Karma.';
 $Page['Description'] = 'All open issues sorted by Karma.';
@@ -41,7 +60,7 @@ require_once $Sitewide['Templates']['Header'];
 	);
 </script>
 <h1><?php echo $Page['Description']; ?></h1>
-<p>There are <?php echo $Issues_Count; ?> open issues.</p>
+<p>There are <?php echo number_format($Issues_Count); ?> open issues with <?php echo number_format($TotalKarma); ?> total karma.</p>
 <table class="duplex tablesorter">
 	<thead>
 		<tr>
