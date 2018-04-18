@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__.'/_puff/sitewide.php';
 
 $Repositories = list_repositories('`Repository` NOT LIKE \'copyof-%\'');
@@ -53,7 +54,7 @@ require_once $Sitewide['Templates']['Header'];
 		function() {
 			$('.tablesorter').tablesorter({
 				sortList: [
-					[4,1]
+					[6,1]
 				]
 			});
 		}
@@ -65,8 +66,10 @@ require_once $Sitewide['Templates']['Header'];
 	<thead>
 		<tr>
 			<th class="clickable text-left faded">Title
-			<th class="clickable text-left">Repository
 			<th class="clickable text-right">Number
+			<th class="clickable text-left">Repository
+			<th class="clickable text-left">Priority
+			<th class="clickable text-left">Size
 			<th class="clickable text-right">Comments
 			<th class="clickable text-right">Bounty
 			<th class="clickable text-right">Opened
@@ -86,16 +89,73 @@ while ( $Issue = mysqli_fetch_assoc($Issues) ) {
 	echo '<a href="https://github.com/'.$Issue['Organisation'].'/'.$Issue['Repository'].'">';
 	echo $Issue['Repository'].PHP_EOL;
 
+	echo '<td class="text-right" data-text="'.$Issue['Number'].'">';
+	echo '<a href="'.$GitHub_URL.'">';
+	echo '#'.number_format($Issue['Number']);
+	echo '</a>'.PHP_EOL;
+
 	echo '<td class="text-left half">'.substr($Issue['Title'], 0, 96);
 	if ( strlen($Issue['Title']) > 96 ) {
 		echo '&hellip;';
 	}
 	echo PHP_EOL;
 
-	echo '<td class="text-right" data-text="'.$Issue['Number'].'">';
-	echo '<a href="'.$GitHub_URL.'">';
-	echo '#'.number_format($Issue['Number']);
-	echo '</a>'.PHP_EOL;
+	// Priority and Size
+	$Issue['Labels'] = json_decode($Issue['Labels'], true);
+	$Priority['color'] = 'eee';
+	$Priority['name'] = 'Priority: Unknown';
+	$Priority['priority'] = 11;
+	$Size['color'] = 'eee';
+	$Size['name'] = 'Size: Unknown';
+	$Size['priority'] = 11;
+	foreach ( $Issue['Labels'] as $Label ) {
+		if ( substr($Label['name'], 0, 10) == 'Priority: ' ) {
+			$Priority = $Label;
+			switch ($Label['name']) {
+				case 'Priority: Critical':
+					$Priority['priority'] = 100;
+				break;
+				case 'Priority: High':
+					$Priority['priority'] = 50;
+				break;
+				case 'Priority: Medium':
+					$Priority['priority'] = 20;
+				break;
+				case 'Priority: Low':
+					$Priority['priority'] = 10;
+				break;
+				case 'Priority: Wishlist':
+					$Priority['priority'] = 5;
+				break;
+			}
+		}
+		if ( substr($Label['name'], 0, 6) == 'Size: ' ) {
+			$Size = $Label;
+			switch ($Label['name']) {
+				case 'Size: Goliath':
+					$Size['priority'] = 100;
+				break;
+				case 'Size: Large':
+					$Size['priority'] = 50;
+				break;
+				case 'Size: Medium':
+					$Size['priority'] = 20;
+				break;
+				case 'Size: Small':
+					$Size['priority'] = 10;
+				break;
+				case 'Size: Bitesize':
+				case 'Size: Bytesize':
+					$Size['priority'] = 5;
+				break;
+			}
+		}
+	}
+	echo '
+		<td data-text="'.$Priority['priority'].'" style="background-color: #'.$Priority['color'].'">
+		'.substr($Priority['name'], 10).'</td>
+		<td data-text="'.$Size['priority'].'"style="background-color: #'.$Size['color'].'">
+		'.substr($Size['name'], 6).'</td>';
 
 	echo '<td class="text-right" data-text="'.$Issue['Comments'].'">';
 	echo number_format($Issue['Comments']).PHP_EOL;
