@@ -66,10 +66,10 @@ $Data = mysqli_query($Sitewide['Database']['Connection'], $Data);
 			<td class="color-flatui-nephritis" data-text="0">Compliant</td>';
 		} else if ( $Repository['ReadMe'] == false ) {
 			echo '
-			<td class="color-flatui-pomegranate" data-text="100">Non-compliant</a></td>';
+			<td class="color-flatui-orange" data-text="1">Non-compliant</a></td>';
 		} else {
 			echo '
-			<td class="color-flatui-orange" data-text="1">Non-compliant</a></td>';
+			<td class="color-flatui-pomegranate" data-text="2">Non-compliant</a></td>';
 		}
 
 		if ( $Repository['Codacy'] > 0 ) {
@@ -77,10 +77,10 @@ $Data = mysqli_query($Sitewide['Database']['Connection'], $Data);
 			<td class="color-flatui-nephritis" data-text="0">Compliant</td>';
 		} else if ( $Repository['ReadMe'] == false ) {
 			echo '
-			<td class="color-flatui-pomegranate" data-text="100">Non-compliant</a></td>';
+			<td class="color-flatui-orange" data-text="1">Non-compliant</a></td>';
 		} else {
 			echo '
-			<td class="color-flatui-orange" data-text="1">Non-compliant</a></td>';
+			<td class="color-flatui-pomegranate" data-text="2">Non-compliant</a></td>';
 		}
 
 		if ( $Repository['CodeClimate'] > 0 ) {
@@ -88,10 +88,10 @@ $Data = mysqli_query($Sitewide['Database']['Connection'], $Data);
 			<td class="color-flatui-nephritis" data-text="0">Compliant</td>';
 		} else if ( $Repository['ReadMe'] == false ) {
 			echo '
-			<td class="color-flatui-pomegranate" data-text="100">Non-compliant</a></td>';
+			<td class="color-flatui-orange" data-text="1">Non-compliant</a></td>';
 		} else {
 			echo '
-			<td class="color-flatui-orange" data-text="1">Non-compliant</a></td>';
+			<td class="color-flatui-pomegranate" data-text="2">Non-compliant</a></td>';
 		}
 
 		if ( $Repository['BountySource'] > 0 ) {
@@ -99,18 +99,21 @@ $Data = mysqli_query($Sitewide['Database']['Connection'], $Data);
 			<td class="color-flatui-nephritis" data-text="0">Compliant</td>';
 		} else if ( $Repository['ReadMe'] == false ) {
 			echo '
-			<td class="color-flatui-pomegranate" data-text="100">Non-compliant</a></td>';
+			<td class="color-flatui-orange" data-text="1">Non-compliant</a></td>';
 		} else {
 			echo '
-			<td class="color-flatui-orange" data-text="1">Non-compliant</a></td>';
+			<td class="color-flatui-pomegranate" data-text="2">Non-compliant</a></td>';
 		}
 
 		if ( $Repository['jsDelivr'] > 0 ) {
 			echo '
 			<td class="color-flatui-nephritis" data-text="0">Present</td>';
-		} else {
+		} else if ( $Repository['ReadMe'] == false ) {
 			echo '
 			<td class="color-flatui-orange" data-text="1">Not present</a></td>';
+		} else {
+			echo '
+			<td class="color-flatui-orange" data-text="2">Not present</a></td>';
 		}
 
 		if ( $Repository['ReadMe'] == false ) {

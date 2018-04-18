@@ -101,7 +101,7 @@ foreach ( $Repositories as $Repository ) {
 
 }
 
-$ItemsTotal = $RepositoriesTotal * 8;
+$ItemsTotal = $RepositoriesTotal * 4;
 $Percentage = round(
 	( 100 - ( ( $ItemsAffected / $ItemsTotal ) * 100 ) ),
 	1
