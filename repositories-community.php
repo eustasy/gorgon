@@ -4,7 +4,7 @@ require_once __DIR__.'/_puff/sitewide.php';
 
 $Page['Type']        = 'Page';
 $Page['Title']       = 'Community Compliance';
-$Page['Description'] = number_format($RepositoriesAffected).' repositories out of compliance with Community rules.';
+$Page['Description'] = 'Repositories out of compliance with Community rules.';
 require_once $Sitewide['Templates']['Header'];
 
 $Meta = 'SELECT * FROM `Meta` WHERE `Name`=\'repositories-community\';';
