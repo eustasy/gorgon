@@ -1,5 +1,6 @@
 ////	External Links
 // Open external links in a new tab.
+/*eslint-env jquery*/
 $(function () {
 	$('a').each(function () {
 		if (
