@@ -4,10 +4,10 @@
 /*eslint-env jquery*/
 $(function () {
 	function ScrollToHash(hash) {
-		var $hash = $(hash);
+		var $hash = $(hash)
 		if ( $hash.length > 0 ) {
 			$('html, body').animate({
-				scrollTop: $hash.offset().top
+				scrollTop: $hash.offset().top,
 			}, 500, function () {
 				window.location.hash = hash
 			})
@@ -25,4 +25,4 @@ $(function () {
 	})
 	// Trigger on page load.
 	ScrollToHash(window.location.hash)
-});
+})
