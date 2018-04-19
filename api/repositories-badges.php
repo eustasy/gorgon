@@ -26,8 +26,12 @@ foreach ( $Repositories as $Repository ) {
 		$Content = base64_decode($ReadMe['content']);
 		$Slug = $Repository['Organisation'].'/'.$Repository['Repository'];
 
-		$TravisCI = '(https://travis-ci.org/'.$Slug.'.svg?branch=master)](https://travis-ci.org/'.$Slug.')';
-		if ( strpos($Content, $TravisCI) !== false ) {
+		$TravisCI['Old'] = '(https://travis-ci.org/'.$Slug.'.svg?branch=master)](https://travis-ci.org/'.$Slug.')';
+		$TravisCI['New'] = '(https://api.travis-ci.org/'.$Slug.'.svg?branch=master)](https://travis-ci.org/'.$Slug.')';
+		if (
+			strpos($Content, $TravisCI['Old']) !== false ||
+			strpos($Content, $TravisCI['New']) !== false
+		) {
 			$Results[$Repository['Repository']]['Badges']['Travis CI'] = true;
 		} else {
 			$Results[$Repository['Repository']]['Badges']['Travis CI'] = false;
@@ -55,11 +59,15 @@ foreach ( $Repositories as $Repository ) {
 		$CodeClimate['Old'] = '[![Code Climate](https://codeclimate.com/github/'.strtolower($Slug).'/badges/gpa.svg)](https://codeclimate.com/github/'.strtolower($Slug).')';
 		$CodeClimate['Start'] = '[![Maintainability](https://api.codeclimate.com/v1/';
 		$CodeClimate['End'] = '/maintainability)](https://codeclimate.com/github/'.$Slug.'/maintainability)';
+		$CodeClimate['EndLow'] = '/maintainability)](https://codeclimate.com/github/'.strtolower($Slug).'/maintainability)';
 		if (
 			strpos($Content, $CodeClimate['Old']) !== false ||
 			(
 				strpos($Content, $CodeClimate['Start']) !== false &&
-				strpos($Content, $CodeClimate['End']) !== false
+				(
+					strpos($Content, $CodeClimate['End']) !== false ||
+					strpos($Content, $CodeClimate['EndLow']) !== false
+				)
 			)
 		) {
 			$Results[$Repository['Repository']]['Badges']['Code Climate'] = true;
