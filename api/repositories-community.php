@@ -41,12 +41,55 @@ foreach ( $Repositories as $Repository ) {
 		$License['type'] == 'file'
 	) {
 		$Content = base64_decode($License['content']);
-		if ( strpos($Content, 'LGPL') !== false ) {
-			$Communities[$Repository['Repository']]['License']['Detected']['Name'] = 'LGPL';
-			$Communities[$Repository['Repository']]['License']['Detected']['Color'] = 'flatui-pumpkin';
+		if ( strpos($Content, 'AGPL') !== false ) {
+			if ( strpos($Content, '3.0') !== false ) {
+				$Communities[$Repository['Repository']]['License']['Detected']['Name'] = 'AGPL 3.0';
+				$Communities[$Repository['Repository']]['License']['Detected']['Color'] = 'flatui-pomegranate';
+			} else {
+				$Communities[$Repository['Repository']]['License']['Detected']['Name'] = 'AGPL';
+				$Communities[$Repository['Repository']]['License']['Detected']['Color'] = 'flatui-pomegranate';
+			}
+		} else if ( strpos($Content, 'LGPL') !== false ) {
+			if ( strpos($Content, '3.0') !== false ) {
+				$Communities[$Repository['Repository']]['License']['Detected']['Name'] = 'LGPL 3.0';
+				$Communities[$Repository['Repository']]['License']['Detected']['Color'] = 'flatui-pumpkin';
+			} else if ( strpos($Content, '2.1') !== false ) {
+				$Communities[$Repository['Repository']]['License']['Detected']['Name'] = 'LGPL 2.1';
+				$Communities[$Repository['Repository']]['License']['Detected']['Color'] = 'flatui-pumpkin';
+			} else {
+				$Communities[$Repository['Repository']]['License']['Detected']['Name'] = 'LGPL';
+				$Communities[$Repository['Repository']]['License']['Detected']['Color'] = 'flatui-pumpkin';
+			}
 		} else if ( strpos($Content, 'GPL') !== false ) {
-			$Communities[$Repository['Repository']]['License']['Detected']['Name'] = 'GPL';
-			$Communities[$Repository['Repository']]['License']['Detected']['Color'] = 'flatui-pomegranate';
+			if ( strpos($Content, '3.0') !== false ) {
+				$Communities[$Repository['Repository']]['License']['Detected']['Name'] = 'GPL 3.0';
+				$Communities[$Repository['Repository']]['License']['Detected']['Color'] = 'flatui-pomegranate';
+			} else if ( strpos($Content, '2.1') !== false ) {
+				$Communities[$Repository['Repository']]['License']['Detected']['Name'] = 'GPL 2.1';
+				$Communities[$Repository['Repository']]['License']['Detected']['Color'] = 'flatui-pomegranate';
+			} else {
+				$Communities[$Repository['Repository']]['License']['Detected']['Name'] = 'GPL';
+				$Communities[$Repository['Repository']]['License']['Detected']['Color'] = 'flatui-pomegranate';
+			}
+		} else if ( strpos($Content, 'MPL') !== false ) {
+			if ( strpos($Content, '2.0') !== false ) {
+				$Communities[$Repository['Repository']]['License']['Detected']['Name'] = 'MPL 2.0';
+				$Communities[$Repository['Repository']]['License']['Detected']['Color'] = 'flatui-pomegranate';
+			} else {
+				$Communities[$Repository['Repository']]['License']['Detected']['Name'] = 'MPL';
+				$Communities[$Repository['Repository']]['License']['Detected']['Color'] = 'flatui-pomegranate';
+			}
+		} else if ( strpos($Content, 'Apache') !== false ) {
+			if ( strpos($Content, '2.0') !== false ) {
+				$Communities[$Repository['Repository']]['License']['Detected']['Name'] = 'Apache 2.0';
+				$Communities[$Repository['Repository']]['License']['Detected']['Color'] = 'flatui-pumpkin';
+			} else {
+				$Communities[$Repository['Repository']]['License']['Detected']['Name'] = 'Apache';
+				$Communities[$Repository['Repository']]['License']['Detected']['Color'] = 'flatui-pumpkin';
+			}
+		} else if ( strpos($Content, 'Unlicense') !== false ) {
+			$Communities[$Repository['Repository']]['License']['Detected']['Name'] = 'Unlicense';
+			$Communities[$Repository['Repository']]['License']['Detected']['Color'] = 'flatui-pumpkin';
 		} else if ( strpos($Content, 'MIT') !== false ) {
 			if ( strpos($Content, 'CC BY NC SA') !== false ) {
 				$Communities[$Repository['Repository']]['License']['Detected']['Name'] = 'MIT with CC BY NC SA';
