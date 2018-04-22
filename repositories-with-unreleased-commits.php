@@ -24,7 +24,7 @@ $Data = mysqli_query($Sitewide['Database']['Connection'], $Data);
 	);
 </script>
 <h1><?php echo number_format($Meta['Data1']); ?> commits since last release.</h1>
-<p><?php echo $Meta['Affected'].' / '.$Meta['Total']; ?> repositories affected.</p>
+<p><?php echo $Meta['Affected'].' / '.$Meta['Total']; ?> repositories affected. <?php echo $Meta['WorkItems']; ?> work items.</p>
 <table class="tablesorter">
 	<thead>
 		<tr>
