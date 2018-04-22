@@ -87,6 +87,7 @@ ratings:
 
 exclude_paths:
   - "_libs/**"
+  - "src/**"
   - "**.min.css"
   - "**.custom.css"
   - "**.min.js"

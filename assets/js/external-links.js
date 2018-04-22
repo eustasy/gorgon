@@ -1,5 +1,6 @@
 ////	External Links
 // Open external links in a new tab.
+/*eslint-env jquery*/
 $(function () {
 	$('a').each(function () {
 		if (
@@ -10,7 +11,7 @@ $(function () {
 			// Check it's not a magnet or anything stupid.
 			this.href.substring(0, 4).toLowerCase() === 'http'
 		) {
-			$(this).attr('rel', 'noopener').attr('target', '_blank');
+			$(this).attr('rel', 'noopener').attr('target', '_blank')
 		}
-	});
-});
+	})
+})
