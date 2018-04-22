@@ -35,7 +35,6 @@ $Data = mysqli_query($Sitewide['Database']['Connection'], $Data);
 			<th class="text-left">Code Climate</th>
 			<th class="text-left">BountySource</th>
 			<th class="text-left">jsDelivr</th>
-			<th class="text-left">ReadMe</th>
 		</tr>
 	</thead>
 	<tbody><?php
@@ -114,14 +113,6 @@ $Data = mysqli_query($Sitewide['Database']['Connection'], $Data);
 		} else {
 			echo '
 			<td class="color-flatui-orange" data-text="2">Not present</a></td>';
-		}
-
-		if ( $Repository['ReadMe'] == false ) {
-			echo '
-			<td class="color-flatui-pomegranate" data-text="100">Non-existent</a></td>';
-		} else {
-			echo '
-			<td class="color-flatui-nephritis" data-text="0">Exists</a></td>';
 		}
 
 		echo '
