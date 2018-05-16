@@ -71,7 +71,7 @@ foreach ( $Repositories as $Repository ) {
 				$Communities[$Repository['Repository']]['License']['Detected']['Name'] = 'GPL';
 				$Communities[$Repository['Repository']]['License']['Detected']['Color'] = 'flatui-pomegranate';
 			}
-		} else if ( strpos($Content, 'MPL') !== false ) {
+		} else if ( strpos($Content, 'MPL License') !== false ) {
 			if ( strpos($Content, '2.0') !== false ) {
 				$Communities[$Repository['Repository']]['License']['Detected']['Name'] = 'MPL 2.0';
 				$Communities[$Repository['Repository']]['License']['Detected']['Color'] = 'flatui-pomegranate';

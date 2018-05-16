@@ -61,6 +61,7 @@ function replace_issues_for_repository($Issue, $connection) {
 	if ( $Issue['State'] == 'open' ) {
 		$Repository['Issues Open']++;
 	}
+	$Issue['labels'] = mysqli_real_escape_string($connection, json_encode($Issue['labels']));
 
 	if ( !empty($Issue['number']) ) {
 		$SQL = 'REPLACE INTO `Issues` SET
@@ -82,7 +83,7 @@ function replace_issues_for_repository($Issue, $connection) {
 		`Reactions`=\''.$Issue['Reactions'].'\',
 		`Description`=\''.$Issue['Body'].'\',
 		`Milestone`=\''.$Issue['Milestone'].'\',
-		`Labels`=\''.json_encode($Issue['labels']).'\';';
+		`Labels`=\''.$Issue['labels'].'\';';
 		$result = mysqli_query($connection, $SQL);
 		return $result;
 	} else {
