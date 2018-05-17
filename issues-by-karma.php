@@ -68,6 +68,9 @@ require_once $Sitewide['Templates']['Header'];
 			<th class="clickable text-left faded">Title
 			<th class="clickable text-right">Number
 			<th class="clickable text-left">Repository
+			<th class="clickable text-left">Type
+			<th class="clickable text-left">Language
+			<th class="clickable text-left">Status
 			<th class="clickable text-left">Priority
 			<th class="clickable text-left">Size
 			<th class="clickable text-right">Comments
@@ -103,11 +106,8 @@ while ( $Issue = mysqli_fetch_assoc($Issues) ) {
 	// Priority and Size
 	$Issue['Labels'] = json_decode($Issue['Labels'], true);
 	$Priority['color'] = 'eee';
-	$Priority['name'] = 'Priority: Unknown';
-	$Priority['priority'] = 11;
-	$Size['color'] = 'eee';
-	$Size['name'] = 'Size: Unknown';
-	$Size['priority'] = 11;
+	$Priority['name'] = 'Priority: Untriaged';
+	$Priority['priority'] = 1;
 	foreach ( $Issue['Labels'] as $Label ) {
 		if ( substr($Label['name'], 0, 10) == 'Priority: ' ) {
 			$Priority = $Label;
@@ -150,11 +150,26 @@ while ( $Issue = mysqli_fetch_assoc($Issues) ) {
 				break;
 			}
 		}
+		if ( substr($Label['name'], 0, 10) == 'Language: ' ) {
+			$Language = $Label;
+		}
+		if ( substr($Label['name'], 0, 8) == 'Status: ' ) {
+			$Status = $Label;
+		}
+		if ( substr($Label['name'], 0, 6) == 'Type: ' ) {
+			$Type = $Label;
+		}
 	}
 	echo '
+		<td style="background-color: #'.$Type['color'].'">
+		'.substr($Type['name'], 6).'</td>
+		<td style="background-color: #'.$Language['color'].'">
+		'.substr($Language['name'], 10).'</td>
+		<td style="background-color: #'.$Status['color'].'">
+		'.substr($Status['name'], 8).'</td>
 		<td data-text="'.$Priority['priority'].'" style="background-color: #'.$Priority['color'].'">
 		'.substr($Priority['name'], 10).'</td>
-		<td data-text="'.$Size['priority'].'"style="background-color: #'.$Size['color'].'">
+		<td data-text="'.$Size['priority'].'" style="background-color: #'.$Size['color'].'">
 		'.substr($Size['name'], 6).'</td>';
 
 	echo '<td class="text-right" data-text="'.$Issue['Comments'].'">';
