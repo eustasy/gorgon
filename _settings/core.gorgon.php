@@ -45,7 +45,7 @@ $Sitewide['Page']['Twitter Site']   = $Sitewide['Social']['Twitter'];
 
 $Sitewide['Page']['UsejQl']         = false;
 $Sitewide['Page']['JQ']             = 'https://cdn.jsdelivr.net/gh/jquery/jquery@latest/dist/jquery.min.js';
-$Sitewide['Page']['JS'][]           = 'https://cdn.jsdelivr.net/gh/Mottie/tablesorter@2.30.4/dist/js/jquery.tablesorter.combined.min.js';
+$Sitewide['Page']['JS'][]           = 'https://cdn.jsdelivr.net/gh/Mottie/tablesorter@2/dist/js/jquery.tablesorter.combined.min.js';
 
 // Version
 $Sitewide['Version']['Core'] = '0.5.0';
