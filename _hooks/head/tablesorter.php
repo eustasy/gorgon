@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Mottie/tablesorter@2.30.4/dist/css/theme.default.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Mottie/tablesorter@2/dist/css/theme.default.min.css">
 <style>
 body {
 	font-family: Arial, sans-serif;
