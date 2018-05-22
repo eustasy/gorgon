@@ -16,6 +16,8 @@ LEFT JOIN
 		AND
 			`Issues`.`Repository` = `Repositories`.`Repository`
 WHERE
+	`Repositories`.`Archived` = '0' AND
+	`Repositories`.`Repository` NOT LIKE 'copyof-%' AND
 	`State` = 'open'
 ORDER BY
 	`Karma Total` DESC;
@@ -36,6 +38,8 @@ LEFT JOIN
 		AND
 			`Issues`.`Repository` = `Repositories`.`Repository`
 WHERE
+	`Repositories`.`Archived` = '0' AND
+	`Repositories`.`Repository` NOT LIKE 'copyof-%' AND
 	`State` = 'open';
 SQL;
 $TotalKarma = mysqli_fetch_once($Sitewide['Database']['Connection'], $SQL);
