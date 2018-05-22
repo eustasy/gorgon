@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__.'/../_puff/sitewide.php';
 
-$Repositories = list_repositories('`Repository` NOT LIKE \'copyof-%\' AND `Description` NOT LIKE \'EOL: %\'');
+$Repositories = list_repositories();
 
 $Results = [];
 $RepositoriesAffected = 0;

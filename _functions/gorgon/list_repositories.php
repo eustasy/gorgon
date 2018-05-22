@@ -1,7 +1,7 @@
 <?php
 
 ////	List all repositories
-function list_repositories($condition = false) {
+function list_repositories($condition = '`Archived` = 0') {
 	global $Sitewide;
 
 	$SQL = '
