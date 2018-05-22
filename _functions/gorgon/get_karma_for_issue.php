@@ -21,46 +21,46 @@ function get_karma_for_issue($Sitewide, $Issue) {
 	$Karma['Time'] = intval( floor( ( $Karma['Time'] / 86400 ) ) );
 
 	////	Karma for Priority and Size
-	// Weighted from 100 to 5
-	$Karma['Priority'] = 20;
-	$Karma['Size']     = 20;
+	// Weighted from 1000 to 1
+	$Karma['Priority'] = 100;
+	$Karma['Size']     = 100;
 	foreach ( $Issue['labels'] as $Label ) {
 		if ( substr($Label['name'], 0, 10) == 'Priority: ' ) {
 			switch ($Label['name']) {
 				case 'Priority: Critical':
-					$Karma['Priority'] = 100;
+					$Karma['Priority'] = 1000;
 				break;
 				case 'Priority: High':
-					$Karma['Priority'] = 50;
+					$Karma['Priority'] = 500;
 				break;
 				case 'Priority: Medium':
-					$Karma['Priority'] = 20;
+					$Karma['Priority'] = 200;
 				break;
 				case 'Priority: Low':
-					$Karma['Priority'] = 10;
+					$Karma['Priority'] = 100;
 				break;
 				case 'Priority: Wishlist':
-					$Karma['Priority'] = 5;
+					$Karma['Priority'] = 50;
 				break;
 			}
 		}
 		if ( substr($Label['name'], 0, 6) == 'Size: ' ) {
 			switch ($Label['name']) {
 				case 'Size: Goliath':
-					$Karma['Size'] = 100;
+					$Karma['Size'] = 1000;
 				break;
 				case 'Size: Large':
-					$Karma['Size'] = 50;
+					$Karma['Size'] = 500;
 				break;
 				case 'Size: Medium':
-					$Karma['Size'] = 20;
+					$Karma['Size'] = 200;
 				break;
 				case 'Size: Small':
-					$Karma['Size'] = 10;
+					$Karma['Size'] = 100;
 				break;
 				case 'Size: Bitesize':
 				case 'Size: Bytesize':
-					$Karma['Size'] = 5;
+					$Karma['Size'] = 50;
 				break;
 			}
 		}

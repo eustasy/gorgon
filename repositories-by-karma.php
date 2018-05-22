@@ -6,6 +6,7 @@ $SQL = <<<SQL
 SELECT
 	`Issues`.`Organisation`,
 	`Issues`.`Repository`,
+	COUNT(*) AS `Issues Total`,
 	SUM(`Karma Total`) AS `Karma Total`,
 	SUM(`Cash Total`) AS `Cash Total`
 FROM
@@ -56,7 +57,7 @@ require_once $Sitewide['Templates']['Header'];
 		function() {
 			$('.tablesorter').tablesorter({
 				sortList: [
-					[1,1]
+					[2,1]
 				]
 			});
 		}
@@ -68,6 +69,7 @@ require_once $Sitewide['Templates']['Header'];
 	<thead>
 		<tr>
 			<th class="clickable text-left">Repository
+			<th class="clickable text-right">Issues
 			<th class="clickable text-right">Bounty
 		</tr>
 	</thead>
@@ -83,6 +85,9 @@ while ( $Repository = mysqli_fetch_assoc($Repositories) ) {
 	echo '<td class="text-left">';
 	echo '<a href="https://github.com/'.$Repository['Organisation'].'/'.$Repository['Repository'].'">';
 	echo $Repository['Repository'].PHP_EOL;
+
+	echo '<td class="text-right">';
+	echo $Repository['Issues Total'].PHP_EOL;
 
 	// Karma Bounty Indicator
 	echo '<td class="text-right" data-text="'.(($Repository['Cash Total']*100000)+$Repository['Karma Total']).'">';

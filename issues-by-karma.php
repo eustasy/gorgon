@@ -16,9 +16,7 @@ LEFT JOIN
 		AND
 			`Issues`.`Repository` = `Repositories`.`Repository`
 WHERE
-	`Issues`.`Repository` NOT LIKE 'copyof-%'
-	AND `Repositories`.`Description` NOT LIKE 'EOL: %'
-	AND `State` = 'open'
+	`State` = 'open'
 ORDER BY
 	`Karma Total` DESC;
 SQL;
@@ -27,7 +25,8 @@ $Issues_Count = mysqli_num_rows($Issues);
 
 $SQL = <<<SQL
 SELECT
-	SUM(`Karma Total`) AS `Karma`
+	SUM(`Karma Total`) AS `Karma Total`,
+	AVG(`Karma Total`) AS `Karma Average`
 FROM
 	`Issues`
 LEFT JOIN
@@ -37,12 +36,11 @@ LEFT JOIN
 		AND
 			`Issues`.`Repository` = `Repositories`.`Repository`
 WHERE
-	`Issues`.`Repository` NOT LIKE 'copyof-%'
-	AND `Repositories`.`Description` NOT LIKE 'EOL: %'
-	AND `State` = 'open';
+	`State` = 'open';
 SQL;
 $TotalKarma = mysqli_fetch_once($Sitewide['Database']['Connection'], $SQL);
-$TotalKarma = $TotalKarma['Karma'];
+$AverageKarma = $TotalKarma['Karma Average'];
+$TotalKarma = $TotalKarma['Karma Total'];
 
 $Page['Type']        = 'Page';
 $Page['Title']       = 'Issues by Karma.';
@@ -54,20 +52,20 @@ require_once $Sitewide['Templates']['Header'];
 		function() {
 			$('.tablesorter').tablesorter({
 				sortList: [
-					[6,1]
+					[9,1]
 				]
 			});
 		}
 	);
 </script>
 <h1><?php echo $Page['Description']; ?></h1>
-<p>There are <?php echo number_format($Issues_Count); ?> open issues with <?php echo number_format($TotalKarma); ?> total karma.</p>
+<p>There are <?php echo number_format($Issues_Count); ?> open issues with <?php echo number_format($TotalKarma); ?> total karma. The average is <?php echo number_format($AverageKarma); ?> karma per issue.</p>
 <table class="duplex tablesorter">
 	<thead>
 		<tr>
-			<th class="clickable text-left faded">Title
-			<th class="clickable text-right">Number
 			<th class="clickable text-left">Repository
+			<th class="clickable text-right">Number
+			<th class="clickable text-left">Title
 			<th class="clickable text-left">Type
 			<th class="clickable text-left">Language
 			<th class="clickable text-left">Status
@@ -108,6 +106,9 @@ while ( $Issue = mysqli_fetch_assoc($Issues) ) {
 	$Priority['color'] = 'eee';
 	$Priority['name'] = 'Priority: Untriaged';
 	$Priority['priority'] = 1;
+	$Size['color'] = 'eee';
+	$Size['name'] = '';
+	$Size['priority'] = 1;
 	foreach ( $Issue['Labels'] as $Label ) {
 		if ( substr($Label['name'], 0, 10) == 'Priority: ' ) {
 			$Priority = $Label;
