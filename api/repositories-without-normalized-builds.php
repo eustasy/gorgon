@@ -18,7 +18,15 @@ foreach ( $Repositories as $Repository ) {
 	$Travis[$Repository['Repository']]['state'] = $Travis[$Repository['Repository']]['branch']['state'];
 
 	foreach ( $Travis[$Repository['Repository']]['branch']['config']['before_script'] as $Line ) {
-		if ( strpos($Line, '649a7e0907c0ab4b342688e7d068b574a0945b3e') !== false ) {
+		if ( strpos($Line, 'b92da74ddf4b05b698e2d12ebd56e965d6749397') !== false ) {
+			$Travis[$Repository['Repository']]['VersionString'] = 'Normal Checks 1.10.1';
+			$Travis[$Repository['Repository']]['VersionColor'] = 'flatui-nephritis';
+			$Travis[$Repository['Repository']]['Affected'] = 0;
+		} else if ( strpos($Line, '2b23ee3dbb274409ae51a620ae9d6fef6516781a') !== false ) {
+			$Travis[$Repository['Repository']]['VersionString'] = 'Normal Checks 1.10.0';
+			$Travis[$Repository['Repository']]['VersionColor'] = 'flatui-nephritis';
+			$Travis[$Repository['Repository']]['Affected'] = 0;
+		} else if ( strpos($Line, '649a7e0907c0ab4b342688e7d068b574a0945b3e') !== false ) {
 			$Travis[$Repository['Repository']]['VersionString'] = 'Normal Checks 1.9';
 			$Travis[$Repository['Repository']]['VersionColor'] = 'flatui-nephritis';
 			$Travis[$Repository['Repository']]['Affected'] = 0;

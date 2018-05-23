@@ -4,11 +4,19 @@
 function github_fetch_once($URL, $RatesAndPages = true) {
 	global $APIQueries, $Client;
 	$APIQueries++;
-	$URL = $URL.'&client_id='.$Client['ID'].'&client_secret='.$Client['Secret'];
+	//$URL = $URL.'&client_id='.$Client['ID'].'&client_secret='.$Client['Secret'];
+
 	$Headers = array(
 		'Accept: application/json',
-		'Accept: application/vnd.github.black-panther-preview+json',
-		'Accept: application/vnd.github.squirrel-girl-preview'
+		'Accept: application/vnd.github.black-panther-preview+json', // Community profile metrics
+		'Accept: application/vnd.github.inertia-preview+json',       // Projects
+		'Accept: application/vnd.github.luke-cage-preview+json',     // Require multiple approving reviews
+		'Accept: application/vnd.github.mercy-preview+json',         // Topics
+		'Accept: application/vnd.github.scarlet-witch-preview+json', // Codes of conduct
+		'Accept: application/vnd.github.squirrel-girl-preview+json', // Reactions
+		'Accept: application/vnd.github.polaris-preview+json',       // Squash merge support
+		'Accept: application/vnd.github.zzzax-preview+json',         // Require signed commits
+		'Authorization: token '.$Client['Token'],
 	);
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, $URL);
@@ -19,7 +27,10 @@ function github_fetch_once($URL, $RatesAndPages = true) {
 	curl_setopt($ch, CURLOPT_VERBOSE, 1);
 	$data = curl_exec($ch);
 	$header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+	//var_dump(curl_getinfo($ch));
 	curl_close($ch);
+	//var_dump($data);
+	//exit;
 
 	$header_array = array();
 	$header_data = substr($data, 0, strpos($data, "\r\n\r\n"));
