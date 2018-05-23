@@ -7,9 +7,9 @@ $Page['Title']       = 'Repository Badges';
 $Page['Description'] = 'Repositories out of compliance with Badge rules.';
 require_once $Sitewide['Templates']['Header'];
 
-$Meta = 'SELECT * FROM `Meta` WHERE `Name`=\'repositories-badges\';';
+$Meta = 'SELECT * FROM `Meta` WHERE `Name`=\'repositories_badges\';';
 $Meta = mysqli_fetch_once($Sitewide['Database']['Connection'], $Meta);
-$Data = 'SELECT * FROM `repositories-badges` ORDER BY `Organisation` DESC, `Repository` DESC;';
+$Data = 'SELECT * FROM `repositories_badges` ORDER BY `Organisation` DESC, `Repository` DESC;';
 $Data = mysqli_query($Sitewide['Database']['Connection'], $Data);
 ?>
 <script>

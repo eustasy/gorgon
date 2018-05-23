@@ -7,9 +7,9 @@ $Page['Title']       = 'Community Compliance';
 $Page['Description'] = 'Repositories out of compliance with Community rules.';
 require_once $Sitewide['Templates']['Header'];
 
-$Meta = 'SELECT * FROM `Meta` WHERE `Name`=\'repositories-community\';';
+$Meta = 'SELECT * FROM `Meta` WHERE `Name`=\'repositories_community\';';
 $Meta = mysqli_fetch_once($Sitewide['Database']['Connection'], $Meta);
-$Data = 'SELECT * FROM `repositories-community` ORDER BY `Organisation` DESC, `Repository` DESC;';
+$Data = 'SELECT * FROM `repositories_community` ORDER BY `Organisation` DESC, `Repository` DESC;';
 $Data = mysqli_query($Sitewide['Database']['Connection'], $Data);
 ?>
 <script>

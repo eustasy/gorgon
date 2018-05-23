@@ -17,7 +17,7 @@ $Data = mysqli_query($Sitewide['Database']['Connection'], $Data);
 		function() {
 			$('.tablesorter').tablesorter({
 				sortList: [
-					[1,1]
+					[0,0]
 				]
 			});
 		}

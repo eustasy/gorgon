@@ -19,10 +19,9 @@ LEFT JOIN
 WHERE
 	`Issues`.`Repository` NOT LIKE 'copyof-%'
 	AND `Repositories`.`Description` NOT LIKE 'EOL: %'
-	AND `Labels` NOT LIKE '%Priority%'
-	AND `Labels` NOT LIKE '%Status: Invalid%'
+	AND `State` = 'closed'
+	AND `Assignee` = ''
 ORDER BY
-	`State` DESC,
 	`Karma Total` DESC;
 SQL;
 $Issues = mysqli_query($Sitewide['Database']['Connection'], $SQL);
@@ -38,7 +37,7 @@ $Issues = count_issues('`Issues`.`Repository` NOT LIKE \'copyof-%\' AND `Reposit
 // Update MetaTable
 $Percentage = round( 100 - ( ( $IssuesAffected / $Issues ) * 100 ) );
 $SQL = 'REPLACE INTO `Meta` (`Name`, `Updated`, `APIQueries`, `Affected`, `Total`, `Percentage`, `WorkItems`) ';
-$SQL .= 'VALUES (\'issues-without-priority\', \''.$Time.'\', \''.$APIQueries.'\', \''.$RepositoriesAffected.'\', \''.$RepositoriesTotal.'\', \''.$Percentage.'\', \''.$IssuesAffected.'\');';
+$SQL .= 'VALUES (\'issues_closed-and-unassigned\', \''.$Time.'\', \''.$APIQueries.'\', \''.$RepositoriesAffected.'\', \''.$RepositoriesTotal.'\', \''.$Percentage.'\', \''.$IssuesAffected.'\');';
 $Result = mysqli_query($Sitewide['Database']['Connection'], $SQL);
 
 $JSON = array(

@@ -7,9 +7,9 @@ $Page['Title']       = 'Labels Compliance';
 $Page['Description'] = number_format($RepositoriesAffected).' repositories out of compliance with GitHub Labels rules.';
 require_once $Sitewide['Templates']['Header'];
 
-$Meta = 'SELECT * FROM `Meta` WHERE `Name`=\'repositories-labels\';';
+$Meta = 'SELECT * FROM `Meta` WHERE `Name`=\'repositories_labels\';';
 $Meta = mysqli_fetch_once($Sitewide['Database']['Connection'], $Meta);
-$Data = 'SELECT * FROM `repositories-labels` ORDER BY `Organisation` DESC, `Repository` DESC;';
+$Data = 'SELECT * FROM `repositories_labels` ORDER BY `Organisation` DESC, `Repository` DESC;';
 $Data = mysqli_query($Sitewide['Database']['Connection'], $Data);
 ?>
 <script>

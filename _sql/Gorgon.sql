@@ -85,10 +85,10 @@ CREATE TABLE `Repositories` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `repositories-community`
+-- Table structure for table `repositories_community`
 --
 
-CREATE TABLE `repositories-community` (
+CREATE TABLE `repositories_community` (
   `Organisation` varchar(256) NOT NULL,
   `Repository` varchar(256) NOT NULL,
   `License_GitHub_Name` varchar(32) NOT NULL,
@@ -110,10 +110,10 @@ CREATE TABLE `repositories-community` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `repositories-labels`
+-- Table structure for table `repositories_labels`
 --
 
-CREATE TABLE `repositories-labels` (
+CREATE TABLE `repositories_labels` (
   `Organisation` varchar(256) NOT NULL,
   `Repository` varchar(256) NOT NULL,
   `Valid` int(11) NOT NULL,
@@ -125,10 +125,10 @@ CREATE TABLE `repositories-labels` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `repositories-with-unreleased-commits`
+-- Table structure for table `repositories_with-unreleased-commits`
 --
 
-CREATE TABLE `repositories-with-unreleased-commits` (
+CREATE TABLE `repositories_with-unreleased-commits` (
   `Organisation` varchar(256) NOT NULL,
   `Repository` varchar(256) NOT NULL,
   `ReleaseString` varchar(64) DEFAULT NULL,
@@ -143,10 +143,10 @@ CREATE TABLE `repositories-with-unreleased-commits` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `repositories-without-normalized-builds`
+-- Table structure for table `repositories_without-normalized-builds`
 --
 
-CREATE TABLE `repositories-without-normalized-builds` (
+CREATE TABLE `repositories_without-normalized-builds` (
   `Organisation` varchar(256) NOT NULL,
   `Repository` varchar(256) NOT NULL,
   `VersionString` varchar(32) DEFAULT NULL,
@@ -213,27 +213,27 @@ ALTER TABLE `Repositories`
   ADD KEY `Size` (`Size`);
 
 --
--- Indexes for table `repositories-community`
+-- Indexes for table `repositories_community`
 --
-ALTER TABLE `repositories-community`
+ALTER TABLE `repositories_community`
   ADD PRIMARY KEY (`Organisation`,`Repository`);
 
 --
--- Indexes for table `repositories-labels`
+-- Indexes for table `repositories_labels`
 --
-ALTER TABLE `repositories-labels`
+ALTER TABLE `repositories_labels`
   ADD PRIMARY KEY (`Organisation`,`Repository`);
 
 --
--- Indexes for table `repositories-with-unreleased-commits`
+-- Indexes for table `repositories_with-unreleased-commits`
 --
-ALTER TABLE `repositories-with-unreleased-commits`
+ALTER TABLE `repositories_with-unreleased-commits`
   ADD PRIMARY KEY (`Organisation`,`Repository`);
 
 --
--- Indexes for table `repositories-without-normalized-builds`
+-- Indexes for table `repositories_without-normalized-builds`
 --
-ALTER TABLE `repositories-without-normalized-builds`
+ALTER TABLE `repositories_without-normalized-builds`
   ADD PRIMARY KEY (`Organisation`,`Repository`);
 
 --

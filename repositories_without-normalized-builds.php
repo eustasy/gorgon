@@ -7,9 +7,9 @@ $Page['Title']       = 'Normalized Builds Compliance';
 $Page['Description'] = number_format($RepositoriesAffected).' repositories out of compliance with Normalized Builds rules.';
 require_once $Sitewide['Templates']['Header'];
 
-$Meta = 'SELECT * FROM `Meta` WHERE `Name`=\'repositories-without-normalized-builds\';';
+$Meta = 'SELECT * FROM `Meta` WHERE `Name`=\'repositories_without-normalized-builds\';';
 $Meta = mysqli_fetch_once($Sitewide['Database']['Connection'], $Meta);
-$Data = 'SELECT * FROM `repositories-without-normalized-builds` ORDER BY `Organisation` DESC, `Repository` DESC;';
+$Data = 'SELECT * FROM `repositories_without-normalized-builds` ORDER BY `Organisation` DESC, `Repository` DESC;';
 $Data = mysqli_query($Sitewide['Database']['Connection'], $Data);
 ?>
 <script>

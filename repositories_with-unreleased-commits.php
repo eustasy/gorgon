@@ -7,9 +7,9 @@ $Page['Title']       = 'Unreleased Commits';
 $Page['Description'] = number_format($RepositoriesAffected).' repositories with unreleased commits.';
 require_once $Sitewide['Templates']['Header'];
 
-$Meta = 'SELECT * FROM `Meta` WHERE `Name`=\'repositories-with-unreleased-commits\';';
+$Meta = 'SELECT * FROM `Meta` WHERE `Name`=\'repositories_with-unreleased-commits\';';
 $Meta = mysqli_fetch_once($Sitewide['Database']['Connection'], $Meta);
-$Data = 'SELECT * FROM `repositories-with-unreleased-commits` ORDER BY `Organisation` DESC, `Repository` DESC;';
+$Data = 'SELECT * FROM `repositories_with-unreleased-commits` ORDER BY `Organisation` DESC, `Repository` DESC;';
 $Data = mysqli_query($Sitewide['Database']['Connection'], $Data);
 ?>
 <script>

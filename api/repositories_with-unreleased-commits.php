@@ -103,13 +103,13 @@ foreach ( $Repositories as $Repository ) {
 // Update MetaTable
 $Percentage = round( 100 - ( ( $RepositoriesAffected / $RepositoriesTotal ) * 100 ) );
 $SQL = 'REPLACE INTO `Meta` (`Name`, `Updated`, `APIQueries`, `Affected`, `Total`, `Percentage`, `WorkItems`, `Data1`) ';
-$SQL .= 'VALUES (\'repositories-with-unreleased-commits\', \''.$Time.'\', \''.$APIQueries.'\', \''.$RepositoriesAffected.'\', \''.$RepositoriesTotal.'\', \''.$Percentage.'\', \''.$WorkItems.'\', \''.$TotalCommitsSince.'\');';
+$SQL .= 'VALUES (\'repositories_with-unreleased-commits\', \''.$Time.'\', \''.$APIQueries.'\', \''.$RepositoriesAffected.'\', \''.$RepositoriesTotal.'\', \''.$Percentage.'\', \''.$WorkItems.'\', \''.$TotalCommitsSince.'\');';
 $Result = mysqli_query($Sitewide['Database']['Connection'], $SQL);
 
 // Empty & Update Table
 $SQL = <<<SQL
-	TRUNCATE TABLE `repositories-with-unreleased-commits`;
-	INSERT INTO `repositories-with-unreleased-commits`
+	TRUNCATE TABLE `repositories_with-unreleased-commits`;
+	INSERT INTO `repositories_with-unreleased-commits`
 		(`Organisation`, `Repository`, `ReleaseVersion`, `ReleaseSemVer`, `ReleaseString`, `ReleaseTime`, `CommitsSince`, `CommitsColor`, `Affected`)
 	VALUES
 SQL;

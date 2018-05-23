@@ -117,13 +117,13 @@ $Percentage = round(
 
 // Update MetaTable
 $SQL = 'REPLACE INTO `Meta` (`Name`, `Updated`, `APIQueries`, `Affected`, `Total`, `Percentage`, `WorkItems`) ';
-$SQL .= 'VALUES (\'repositories-badges\', \''.$Time.'\', \''.$APIQueries.'\', \''.$RepositoriesAffected.'\', \''.$RepositoriesTotal.'\', \''.$Percentage.'\', \''.$ItemsAffected.'\');';
+$SQL .= 'VALUES (\'repositories_badges\', \''.$Time.'\', \''.$APIQueries.'\', \''.$RepositoriesAffected.'\', \''.$RepositoriesTotal.'\', \''.$Percentage.'\', \''.$ItemsAffected.'\');';
 $Result = mysqli_query($Sitewide['Database']['Connection'], $SQL);
 
 // Empty & Update Table
 $SQL = <<<SQL
-	TRUNCATE TABLE `repositories-badges`;
-	INSERT INTO `repositories-badges` (
+	TRUNCATE TABLE `repositories_badges`;
+	INSERT INTO `repositories_badges` (
 		`Organisation`, `Repository`,
 		`TravisCI`, `Codacy`,
 		`CodeClimate`, `BountySource`,

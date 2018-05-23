@@ -69,13 +69,13 @@ $Percentage = round(
 
 // Update MetaTable
 $SQL = 'REPLACE INTO `Meta` (`Name`, `Updated`, `APIQueries`, `Affected`, `Total`, `Percentage`, `WorkItems`) ';
-$SQL .= 'VALUES (\'repositories-without-normalized-builds\', \''.$Time.'\', \''.$APIQueries.'\', \''.$RepositoriesAffected.'\', \''.$RepositoriesTotal.'\', \''.$Percentage.'\', \''.$ItemsAffected.'\');';
+$SQL .= 'VALUES (\'repositories_without-normalized-builds\', \''.$Time.'\', \''.$APIQueries.'\', \''.$RepositoriesAffected.'\', \''.$RepositoriesTotal.'\', \''.$Percentage.'\', \''.$ItemsAffected.'\');';
 $Result = mysqli_query($Sitewide['Database']['Connection'], $SQL);
 
 // Empty & Update Table
 $SQL = <<<SQL
-	TRUNCATE TABLE `repositories-without-normalized-builds`;
-	INSERT INTO `repositories-without-normalized-builds`
+	TRUNCATE TABLE `repositories_without-normalized-builds`;
+	INSERT INTO `repositories_without-normalized-builds`
 		(`Organisation`, `Repository`, `VersionString`, `VersionColor`, `state`, `Affected`)
 	VALUES
 SQL;

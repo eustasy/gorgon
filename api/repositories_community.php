@@ -208,13 +208,13 @@ $Percentage = round(
 
 // Update MetaTable
 $SQL = 'REPLACE INTO `Meta` (`Name`, `Updated`, `APIQueries`, `Affected`, `Total`, `Percentage`, `WorkItems`) ';
-$SQL .= 'VALUES (\'repositories-community\', \''.$Time.'\', \''.$APIQueries.'\', \''.$RepositoriesAffected.'\', \''.$RepositoriesTotal.'\', \''.$Percentage.'\', \''.$ItemsAffected.'\');';
+$SQL .= 'VALUES (\'repositories_community\', \''.$Time.'\', \''.$APIQueries.'\', \''.$RepositoriesAffected.'\', \''.$RepositoriesTotal.'\', \''.$Percentage.'\', \''.$ItemsAffected.'\');';
 $Result = mysqli_query($Sitewide['Database']['Connection'], $SQL);
 
 // Empty & Update Table
 $SQL = <<<SQL
-	TRUNCATE TABLE `repositories-community`;
-	INSERT INTO `repositories-community` (
+	TRUNCATE TABLE `repositories_community`;
+	INSERT INTO `repositories_community` (
 		`Organisation`, `Repository`,
 		`License_GitHub_Name`, `License_GitHub_Link`,
 		`License_Detected_Name`, `License_Detected_Color`, `License_Detected_Year`,
