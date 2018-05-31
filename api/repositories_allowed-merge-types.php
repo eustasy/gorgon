@@ -67,10 +67,10 @@ $MetaResult = Checks_Meta_Update($Sitewide['Database']['Connection'], $Meta);
 $Columns = array(
 	'Organisation',
 	'Repository',
+	'Affected',
 	'allow_rebase_merge',
 	'allow_squash_merge',
 	'allow_merge_commit',
-	'Affected',
 );
 $DataResult = Checks_Data_Update($Sitewide['Database']['Connection'], 'repositories_allowed-merge-types', $Columns, $Data);
 
