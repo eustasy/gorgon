@@ -3,6 +3,7 @@
 require_once __DIR__.'/../_puff/sitewide.php';
 
 //// GET /orgs/:org/repos
+// WARNING Only gets the 100 most recent, public repositories
 $URL = 'https://api.github.com/orgs/'.$Client['Organisation'].'/repos?visibility=public&per_page=100';
 $data = github_fetch_once($URL);
 

@@ -19,7 +19,7 @@ if ( !empty($_GET['slug']) ) {
 $Repository = mysqli_fetch_once($Sitewide['Database']['Connection'], $SQL);
 
 if ( !$Repository ) {
-	echo json_encode(array('error' => 'Repository "'.$Repository['Organisation'].'/'.$Repository['Repository'].'" not found in Gorgon.'));
+	echo json_encode(array('error' => 'Repository "'.$Slug[0].'/'.$Slug[1].'" not found in Gorgon.'));
 } else {
 	//// GET /repos/:owner/:repo
 	$URL = 'https://api.github.com/repos/'.$Repository['Organisation'].'/'.$Repository['Repository'].'?';

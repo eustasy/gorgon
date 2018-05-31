@@ -13,8 +13,9 @@ function replace_details_for_repository($Repository, $data) {
 		$Repository['Modified At'] = strtotime($data['pushed_at']);
 	}
 	$Repository['Popularity'] = $data['stargazers_count'] + $data['forks_count'];
-	$Repository['Size'] = $data['size'];
-	$Repository['Archived'] = $data['archived'];
+	$Repository['Size']     = intval($data['size']);
+	$Repository['Fork']     = intval($data['fork']);
+	$Repository['Archived'] = intval($data['archived']);
 
 	$Repository['Updated At'] = $Time;
 	$Repository['Outdated'] = 0;
@@ -25,6 +26,7 @@ function replace_details_for_repository($Repository, $data) {
 	SET
 		`Organisation`=\''.$Repository['Organisation'].'\',
 		`Repository`=\''.$Repository['Repository'].'\',
+		`Fork`=\''.$Repository['Fork'].'\',
 		`Archived`=\''.$Repository['Archived'].'\',
 		`Outdated`=\''.$Repository['Outdated'].'\',
 		`Updated At`=\''.$Repository['Updated At'].'\',

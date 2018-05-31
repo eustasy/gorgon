@@ -1,7 +1,7 @@
 <?php
 
 ////	List all repositories
-function list_repositories($condition = '`Repository` NOT LIKE \'copyof-%\' AND `Archived` = \'0\'') {
+function list_repositories($condition = 'NOT `Archived` AND NOT `Fork`') {
 	global $Sitewide;
 
 	$SQL = '
