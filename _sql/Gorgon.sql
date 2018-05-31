@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 13, 2018 at 06:46 PM
--- Server version: 10.1.32-MariaDB-1~xenial
--- PHP Version: 7.1.16-1+ubuntu16.04.1+deb.sury.org+1
+-- Generation Time: May 31, 2018 at 07:01 PM
+-- Server version: 10.1.33-MariaDB-1~xenial
+-- PHP Version: 7.1.17-1+ubuntu16.04.1+deb.sury.org+1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -42,6 +42,7 @@ CREATE TABLE `Issues` (
   `Cash Open` decimal(16,2) DEFAULT NULL,
   `Title` varchar(256) NOT NULL,
   `Comments` int(10) NOT NULL,
+  `Reactions` int(10) NOT NULL,
   `Description` varchar(2048) NOT NULL,
   `Milestone` varchar(256) NOT NULL,
   `Labels` varchar(2048) NOT NULL
@@ -67,12 +68,27 @@ CREATE TABLE `Meta` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `MetaDescriptions`
+--
+
+CREATE TABLE `MetaDescriptions` (
+  `Name` varchar(256) NOT NULL,
+  `NiceName` varchar(256) NOT NULL,
+  `Description` varchar(512) NOT NULL,
+  `Instructions` varchar(2048) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `Repositories`
 --
 
 CREATE TABLE `Repositories` (
   `Organisation` varchar(256) NOT NULL,
   `Repository` varchar(256) NOT NULL,
+  `Archived` tinyint(1) DEFAULT NULL,
+  `Fork` tinyint(1) DEFAULT NULL,
   `Outdated` tinyint(1) NOT NULL DEFAULT '1',
   `Updated At` int(21) DEFAULT NULL,
   `Modified At` int(21) DEFAULT NULL,
@@ -80,6 +96,58 @@ CREATE TABLE `Repositories` (
   `Popularity` int(16) DEFAULT NULL,
   `Homepage` varchar(256) DEFAULT NULL,
   `Description` varchar(1024) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `RepositoriesStats`
+--
+
+CREATE TABLE `RepositoriesStats` (
+  `Organisation` varchar(256) NOT NULL,
+  `Repository` varchar(256) NOT NULL,
+  `Outdated` tinyint(1) NOT NULL DEFAULT '1',
+  `Updated At` int(21) DEFAULT NULL,
+  `Karma Total` int(16) DEFAULT NULL,
+  `Karma Open` int(16) DEFAULT NULL,
+  `Cash Total` decimal(16,2) DEFAULT NULL,
+  `Cash Open` decimal(16,2) DEFAULT NULL,
+  `Issues Total` int(16) DEFAULT NULL,
+  `Issues Open` int(16) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `repositories_allowed-merge-types`
+--
+
+CREATE TABLE `repositories_allowed-merge-types` (
+  `Organisation` varchar(256) NOT NULL,
+  `Repository` varchar(256) NOT NULL,
+  `allow_rebase_merge` tinyint(1) DEFAULT NULL,
+  `allow_squash_merge` tinyint(1) DEFAULT NULL,
+  `allow_merge_commit` tinyint(1) DEFAULT NULL,
+  `Affected` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `repositories_badges`
+--
+
+CREATE TABLE `repositories_badges` (
+  `Organisation` varchar(256) NOT NULL,
+  `Repository` varchar(256) NOT NULL,
+  `Affected` tinyint(1) NOT NULL,
+  `TravisCI` tinyint(1) NOT NULL,
+  `Codacy` tinyint(1) NOT NULL,
+  `CodeClimate` tinyint(1) NOT NULL,
+  `BountySource` tinyint(1) NOT NULL,
+  `jsDelivr` tinyint(1) NOT NULL,
+  `ReadMe` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -155,25 +223,6 @@ CREATE TABLE `repositories_without-normalized-builds` (
   `Affected` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `RepositoriesStats`
---
-
-CREATE TABLE `RepositoriesStats` (
-  `Organisation` varchar(256) NOT NULL,
-  `Repository` varchar(256) NOT NULL,
-  `Outdated` tinyint(1) NOT NULL DEFAULT '1',
-  `Updated At` int(21) DEFAULT NULL,
-  `Karma Total` int(16) DEFAULT NULL,
-  `Karma Open` int(16) DEFAULT NULL,
-  `Cash Total` decimal(16,2) DEFAULT NULL,
-  `Cash Open` decimal(16,2) DEFAULT NULL,
-  `Issues Total` int(16) DEFAULT NULL,
-  `Issues Open` int(16) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 --
 -- Indexes for dumped tables
 --
@@ -200,6 +249,12 @@ ALTER TABLE `Meta`
   ADD PRIMARY KEY (`Name`);
 
 --
+-- Indexes for table `MetaDescriptions`
+--
+ALTER TABLE `MetaDescriptions`
+  ADD PRIMARY KEY (`Name`);
+
+--
 -- Indexes for table `Repositories`
 --
 ALTER TABLE `Repositories`
@@ -211,6 +266,34 @@ ALTER TABLE `Repositories`
   ADD KEY `Repository` (`Repository`),
   ADD KEY `Modified At` (`Modified At`),
   ADD KEY `Size` (`Size`);
+
+--
+-- Indexes for table `RepositoriesStats`
+--
+ALTER TABLE `RepositoriesStats`
+  ADD PRIMARY KEY (`Organisation`,`Repository`),
+  ADD KEY `Organisation` (`Organisation`),
+  ADD KEY `Repository` (`Repository`),
+  ADD KEY `Updated At` (`Updated At`),
+  ADD KEY `Open Issues` (`Issues Open`),
+  ADD KEY `Cash Open` (`Cash Open`),
+  ADD KEY `Cash Total` (`Cash Total`),
+  ADD KEY `Karma Open` (`Karma Open`),
+  ADD KEY `Karma Total` (`Karma Total`),
+  ADD KEY `Total Issues` (`Issues Total`),
+  ADD KEY `Outdated` (`Outdated`);
+
+--
+-- Indexes for table `repositories_allowed-merge-types`
+--
+ALTER TABLE `repositories_allowed-merge-types`
+  ADD PRIMARY KEY (`Organisation`,`Repository`);
+
+--
+-- Indexes for table `repositories_badges`
+--
+ALTER TABLE `repositories_badges`
+  ADD PRIMARY KEY (`Organisation`,`Repository`);
 
 --
 -- Indexes for table `repositories_community`
@@ -235,22 +318,6 @@ ALTER TABLE `repositories_with-unreleased-commits`
 --
 ALTER TABLE `repositories_without-normalized-builds`
   ADD PRIMARY KEY (`Organisation`,`Repository`);
-
---
--- Indexes for table `RepositoriesStats`
---
-ALTER TABLE `RepositoriesStats`
-  ADD PRIMARY KEY (`Organisation`,`Repository`),
-  ADD KEY `Organisation` (`Organisation`),
-  ADD KEY `Repository` (`Repository`),
-  ADD KEY `Updated At` (`Updated At`),
-  ADD KEY `Open Issues` (`Issues Open`),
-  ADD KEY `Cash Open` (`Cash Open`),
-  ADD KEY `Cash Total` (`Cash Total`),
-  ADD KEY `Karma Open` (`Karma Open`),
-  ADD KEY `Karma Total` (`Karma Total`),
-  ADD KEY `Total Issues` (`Issues Total`),
-  ADD KEY `Outdated` (`Outdated`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
